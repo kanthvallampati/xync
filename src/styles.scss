@@ -206,3 +206,11 @@ body {
 .mat-mdc-form-field .mdc-text-field--outlined .mdc-notched-outline--upgraded .mdc-floating-label--float-above {
   color: #999999 !important;
 }
+
+
+.mat-mdc-tab .mdc-tab__text-label {
+  color: #999999 !important;
+}
+.mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
+  color: #ffffff !important;
+}

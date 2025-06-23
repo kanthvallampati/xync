@@ -16,8 +16,8 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 // Services
-import { FeatureFlagService } from '../../services/feature-flag.service';
-import { FeatureFlag, User, FlagEvaluation } from '../../models/feature-flag.model';
+import { FeatureFlagService } from '../services/feature-flag.service';
+import { FeatureFlag, User, FlagEvaluation } from '../models/feature-flag.model';
 
 @Component({
   selector: 'app-flag-tester',

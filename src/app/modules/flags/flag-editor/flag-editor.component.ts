@@ -19,9 +19,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 // Services
-import { FeatureFlagService } from '../../services/feature-flag.service';
-import { Environment, Variation, FlagType } from '../../models/feature-flag.model';
-import { FLAG_TYPES } from '../../constants/app.constants';
+import { FeatureFlagService } from '../services/feature-flag.service';
+import { Environment, Variation, FlagType } from '../models/feature-flag.model';
+import { FLAG_TYPES } from '../../../constants/app.constants';
 
 @Component({
   selector: 'app-flag-editor',

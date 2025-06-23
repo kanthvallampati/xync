@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, combineLatest } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { FeatureFlag, User, FlagEvaluation, Environment, FlagType } from '../models/feature-flag.model';
-import { WorkspaceService } from './workspace.service';
+import { WorkspaceService } from '../../workspaces/services/workspace.service';
 
 @Injectable({
   providedIn: 'root'

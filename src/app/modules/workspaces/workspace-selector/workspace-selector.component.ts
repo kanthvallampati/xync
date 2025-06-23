@@ -16,9 +16,9 @@ import { MatDividerModule } from '@angular/material/divider';
 // Third Party Libraries
 import { Subject, takeUntil } from 'rxjs';
 
-// Services
-import { Workspace } from '../../models/workspace.model';
-import { WorkspaceService } from '../../services/workspace.service';
+// Models & Services
+import { Workspace } from '../models/workspace.model';
+import { WorkspaceService } from '../services/workspace.service';
 
 @Component({
   selector: 'app-workspace-selector',

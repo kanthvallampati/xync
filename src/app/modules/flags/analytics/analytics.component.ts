@@ -15,8 +15,8 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatDividerModule } from '@angular/material/divider';
 
 // Services
-import { FeatureFlagService } from '../../services/feature-flag.service';
-import { FeatureFlag, FlagEvaluation } from '../../models/feature-flag.model';
+import { FeatureFlagService } from '../services/feature-flag.service';
+import { FeatureFlag, FlagEvaluation } from '../models/feature-flag.model';
 
 @Component({
   selector: 'app-analytics',

@@ -1,4 +1,4 @@
-import { FlagType } from "../models/feature-flag.model";
+import { FlagType } from "../modules/flags/models/feature-flag.model";
 
 export const FLAG_TYPES = [
   { value: FlagType.BOOLEAN, label: 'Boolean' },

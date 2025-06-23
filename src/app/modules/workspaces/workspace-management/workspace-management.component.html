@@ -59,7 +59,7 @@
         <div class="tab-content">
           <div class="tab-header">
             <h2>All Workspaces</h2>
-            <button mat-raised-button color="primary" (click)="selectedTab = 3">
+            <button mat-raised-button color="primary" (click)="goToCreateWorkspace()">
               <mat-icon>add</mat-icon>
               Create New Workspace
             </button>
@@ -238,53 +238,6 @@
         </div>
       </mat-tab>
 
-      <!-- Create Workspace Tab -->
-      <mat-tab label="Create Workspace">
-        <div class="tab-content">
-          <div class="tab-header">
-            <h2>Create New Workspace</h2>
-            <p>Set up a new workspace for your team</p>
-          </div>
-
-          <mat-card>
-            <mat-card-content>
-              <form [formGroup]="workspaceForm" class="create-form">
-                <div class="form-row">
-                  <mat-form-field appearance="outline">
-                    <mat-label>Workspace Name</mat-label>
-                    <input matInput formControlName="name" placeholder="Enter workspace name">
-                  </mat-form-field>
-                  <mat-form-field appearance="outline">
-                    <mat-label>Workspace Key</mat-label>
-                    <input matInput formControlName="key" placeholder="workspace-key">
-                    <mat-hint>Lowercase letters, numbers, and hyphens only</mat-hint>
-                  </mat-form-field>
-                </div>
-                <mat-form-field appearance="outline" class="full-width">
-                  <mat-label>Description</mat-label>
-                  <textarea matInput formControlName="description" placeholder="Describe your workspace"></textarea>
-                </mat-form-field>
-                <div class="form-row">
-                  <mat-form-field appearance="outline">
-                    <mat-label>Max Flags Per Project</mat-label>
-                    <input matInput type="number" formControlName="maxFlagsPerProject" min="1">
-                  </mat-form-field>
-                </div>
-                <div class="checkbox-row">
-                  <mat-checkbox formControlName="allowPublicFlags">Allow Public Flags</mat-checkbox>
-                  <mat-checkbox formControlName="requireApproval">Require Approval for Changes</mat-checkbox>
-                </div>
-                <div class="form-actions">
-                  <button mat-raised-button color="primary" (click)="onCreateWorkspace()" [disabled]="!workspaceForm.valid">
-                    Create Workspace
-                  </button>
-                </div>
-              </form>
-            </mat-card-content>
-          </mat-card>
-        </div>
-      </mat-tab>
-
       <!-- Add Member Tab -->
       <mat-tab label="Add Member" [disabled]="!currentWorkspace">
         <div class="tab-content" *ngIf="currentWorkspace">
@@ -318,91 +271,6 @@
                 <div class="form-actions">
                   <button mat-raised-button color="primary" (click)="onAddMember()" [disabled]="!memberForm.valid">
                     Add Member
-                  </button>
-                </div>
-              </form>
-            </mat-card-content>
-          </mat-card>
-        </div>
-      </mat-tab>
-
-      <!-- Invitations Tab -->
-      <mat-tab label="Invitations">
-        <div class="tab-content">
-          <div class="tab-header">
-            <h2>Pending Invitations</h2>
-            <button mat-raised-button color="primary" (click)="selectedTab = 5">
-              <mat-icon>mail</mat-icon>
-              Send Invitation
-            </button>
-          </div>
-
-          <mat-card *ngIf="invitations.length > 0">
-            <mat-card-content>
-              <mat-list>
-                <mat-list-item *ngFor="let invitation of invitations">
-                  <div class="invitation-item">
-                    <div class="invitation-info">
-                      <div class="invitation-email">{{ invitation.email }}</div>
-                      <div class="invitation-details">
-                        Role: {{ getRoleDisplayName(invitation.role) }} • 
-                        Invited: {{ invitation.invitedAt | date:'short' }} • 
-                        Expires: {{ invitation.expiresAt | date:'short' }}
-                      </div>
-                    </div>
-                    <div class="invitation-actions">
-                      <mat-chip [color]="getInvitationStatusColor(invitation.status)" selected>
-                        {{ invitation.status }}
-                      </mat-chip>
-                      <button mat-icon-button (click)="onAcceptInvitation(invitation.id)" *ngIf="invitation.status === 'pending'">
-                        <mat-icon>check</mat-icon>
-                      </button>
-                    </div>
-                  </div>
-                </mat-list-item>
-              </mat-list>
-            </mat-card-content>
-          </mat-card>
-
-          <mat-card *ngIf="invitations.length === 0">
-            <mat-card-content>
-              <div class="empty-state">
-                <mat-icon>mail_outline</mat-icon>
-                <h3>No Pending Invitations</h3>
-                <p>All invitations have been processed or there are no pending invitations.</p>
-              </div>
-            </mat-card-content>
-          </mat-card>
-        </div>
-      </mat-tab>
-
-      <!-- Send Invitation Tab -->
-      <mat-tab label="Send Invitation" [disabled]="!currentWorkspace">
-        <div class="tab-content" *ngIf="currentWorkspace">
-          <div class="tab-header">
-            <h2>Send Invitation</h2>
-            <p>Invite someone to join your workspace</p>
-          </div>
-
-          <mat-card>
-            <mat-card-content>
-              <form [formGroup]="invitationForm" class="invitation-form">
-                <mat-form-field appearance="outline">
-                  <mat-label>Email Address</mat-label>
-                  <input matInput formControlName="email" placeholder="Enter email address">
-                </mat-form-field>
-                <mat-form-field appearance="outline">
-                  <mat-label>Role</mat-label>
-                  <mat-select formControlName="role">
-                    <mat-option [value]="WorkspaceRole.OWNER">Owner</mat-option>
-                    <mat-option [value]="WorkspaceRole.ADMIN">Admin</mat-option>
-                    <mat-option [value]="WorkspaceRole.EDITOR">Editor</mat-option>
-                    <mat-option [value]="WorkspaceRole.VIEWER">Viewer</mat-option>
-                  </mat-select>
-                </mat-form-field>
-                <div class="form-actions">
-                  <button mat-raised-button color="primary" (click)="onCreateInvitation()" [disabled]="!invitationForm.valid">
-                    Send Invitation
                   </button>
                 </div>
               </form>

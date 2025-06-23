@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 // Components
-import { WorkspaceSelectorComponent } from '../../components/workspace-selector/workspace-selector.component';
+import { WorkspaceSelectorComponent } from '../../modules/workspaces/workspace-selector/workspace-selector.component';
 
 @Component({
   selector: 'app-header',

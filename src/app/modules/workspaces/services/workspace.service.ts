@@ -139,7 +139,7 @@ export class WorkspaceService {
     return of(workspace);
   }
 
-  createWorkspace(workspace: Omit<Workspace, 'id' | 'createdAt' | 'updatedAt'>): Observable<Workspace> {
+  createNewWorkspace(workspace: Omit<Workspace, 'id' | 'createdAt' | 'updatedAt'>): Observable<Workspace> {
     const newWorkspace: Workspace = {
       ...workspace,
       id: `workspace-${Date.now()}`,

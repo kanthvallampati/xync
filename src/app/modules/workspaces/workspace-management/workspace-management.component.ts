@@ -1,6 +1,10 @@
+// Core Libraries
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+
+// Angular Material
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -16,10 +20,14 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { MatBadgeModule } from '@angular/material/badge';
-import { Router } from '@angular/router';
+
+// Third Party Libraries
 import { Subject, takeUntil } from 'rxjs';
-import { Workspace, WorkspaceMember, WorkspaceRole, WorkspaceInvitation, WorkspaceStats } from '../../models/workspace.model';
-import { WorkspaceService } from '../../services/workspace.service';
+
+// Models & Services
+import { Workspace, WorkspaceMember, WorkspaceRole, WorkspaceInvitation, WorkspaceStats } from '../models/workspace.model';
+import { WorkspaceService } from '../services/workspace.service';
+
 
 @Component({
   selector: 'app-workspace-management',
@@ -127,30 +135,6 @@ export class WorkspaceManagementComponent implements OnInit, OnDestroy {
       });
   }
 
-  onCreateWorkspace(): void {
-    if (this.workspaceForm.valid) {
-      const workspaceData = this.workspaceForm.value;
-      this.workspaceService.createWorkspace({
-        ...workspaceData,
-        createdBy: 'current-user@example.com',
-        isDefault: false,
-        settings: {
-          allowPublicFlags: workspaceData.allowPublicFlags,
-          requireApproval: workspaceData.requireApproval,
-          maxFlagsPerProject: workspaceData.maxFlagsPerProject,
-          allowedFlagTypes: ['boolean', 'string', 'number', 'json'],
-          customAttributes: []
-        },
-        members: [],
-        environments: []
-      }).subscribe(workspace => {
-        this.snackBar.open('Workspace created successfully', 'Close', { duration: 3000 });
-        this.workspaceForm.reset();
-        this.loadData();
-      });
-    }
-  }
-
   onUpdateWorkspace(): void {
     if (this.workspaceForm.valid && this.currentWorkspace) {
       const updates = this.workspaceForm.value;
@@ -214,32 +198,6 @@ export class WorkspaceManagementComponent implements OnInit, OnDestroy {
     }
   }
 
-  onCreateInvitation(): void {
-    if (this.invitationForm.valid && this.currentWorkspace) {
-      const invitationData = this.invitationForm.value;
-      this.workspaceService.createInvitation({
-        workspaceId: this.currentWorkspace.id,
-        email: invitationData.email,
-        role: invitationData.role,
-        invitedBy: 'current-user@example.com'
-      }).subscribe(invitation => {
-        this.snackBar.open('Invitation sent successfully', 'Close', { duration: 3000 });
-        this.invitationForm.reset();
-        this.loadData();
-      });
-    }
-  }
-
-  onAcceptInvitation(invitationId: string): void {
-    this.workspaceService.acceptInvitation(invitationId)
-      .subscribe(success => {
-        if (success) {
-          this.snackBar.open('Invitation accepted successfully', 'Close', { duration: 3000 });
-          this.loadData();
-        }
-      });
-  }
-
   onDeleteWorkspace(workspaceId: string): void {
     if (confirm('Are you sure you want to delete this workspace? This action cannot be undone.')) {
       this.workspaceService.deleteWorkspace(workspaceId)
@@ -291,16 +249,7 @@ export class WorkspaceManagementComponent implements OnInit, OnDestroy {
     }
   }
 
-  getInvitationStatusColor(status: string): string {
-    switch (status) {
-      case 'pending':
-        return 'warn';
-      case 'accepted':
-        return 'primary';
-      case 'expired':
-        return 'default';
-      default:
-        return 'default';
-    }
+  goToCreateWorkspace(): void {
+    this.router.navigate(['/workspaces/new']);
   }
 } 

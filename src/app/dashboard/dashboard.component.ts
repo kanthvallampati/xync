@@ -18,8 +18,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
 
 // Services
-import { FeatureFlagService } from '../../services/feature-flag.service';
-import { FeatureFlag, Environment } from '../../models/feature-flag.model';
+import { FeatureFlagService } from '../modules/flags/services/feature-flag.service';
+import { FeatureFlag, Environment } from '../modules/flags/models/feature-flag.model';
 
 @Component({
   selector: 'app-dashboard',
