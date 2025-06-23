@@ -10,7 +10,6 @@
   padding: 8px 16px;
   border-radius: 8px;
   background-color: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
   color: white;
   transition: all 0.2s ease;
 
@@ -20,7 +19,6 @@
   }
 
   .workspace-name {
-    font-weight: 500;
     max-width: 150px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -40,8 +38,6 @@
 
   h3 {
     margin: 0;
-    font-size: 16px;
-    font-weight: 600;
     color: #ffffff;
   }
 }

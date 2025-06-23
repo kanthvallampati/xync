@@ -1,6 +1,10 @@
+// Core Libraries
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+
+// Angular Material
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -8,8 +12,11 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
-import { Router } from '@angular/router';
+
+// Third Party Libraries
 import { Subject, takeUntil } from 'rxjs';
+
+// Services
 import { Workspace } from '../../models/workspace.model';
 import { WorkspaceService } from '../../services/workspace.service';
 
