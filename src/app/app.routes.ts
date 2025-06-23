@@ -7,9 +7,11 @@ import { WorkspaceManagementComponent } from './modules/workspaces/workspace-man
 import { WorkspaceCreationComponent } from './modules/workspaces/workspace-creation/workspace-creation.component';
 import { BillingComponent } from './modules/billing/billing.component';
 import { billingOwnerGuard } from './modules/billing/billing-owner.guard';
+import { EntryPoint } from './entry-point/entry-point';
 
 export const routes: Routes = [
-  { path: '', component: DashboardComponent },
+  { path: '', component: EntryPoint },
+  { path: 'dashboard', component: DashboardComponent },
   { path: 'flags/new', component: FlagEditorComponent },
   { path: 'flags/:key', component: FlagEditorComponent },
   { path: 'flags/:key/analytics', component: AnalyticsComponent },

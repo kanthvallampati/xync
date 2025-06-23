@@ -1,0 +1,37 @@
+<div class="entry-point-container">
+  
+  @if (showWorkspaceSelection) {
+    <div class="entry-selection-container">
+      <h5>Please select a workspace to continue.</h5>
+      <div class="entry-cards-list">
+        @if (workspaces$ | async; as workspaces) {
+          @for (workspace of workspaces; track workspace.id) {
+            <div class="entry-card" (click)="selectWorkspace(workspace)">
+              <h6>{{ workspace.name }}</h6>
+              <div class="text-sm">{{ workspace.description }}</div>
+              <div class="text-sm">{{ workspace.projects?.length ?? 0 }} project(s)</div>
+            </div>
+          }
+        }
+      </div>
+    </div>
+  }
+
+  @if (showProjectSelection) {
+    <div class="entry-selection-container">
+      <h5>Please select a project to continue.</h5>
+      <div class="entry-cards-list">
+        @if (projects$ | async; as projects) {
+          @for (project of projects; track project.id) {
+            <div class="entry-card" (click)="selectProject(project)">
+              <h6>{{ project.name }}</h6>
+              <div class="text-sm">{{ project.description }}</div>
+              <div class="text-sm">{{ project.members.length }} Member(s)</div>
+            </div>
+          }
+        }
+      </div>
+    </div>
+  }
+  
+</div>
