@@ -1,0 +1,72 @@
+<div class="workspace-creation-container">
+  <div class="creation-header">
+    <h1>Create New Workspace</h1>
+    <p>Set up a new workspace for your team and projects</p>
+  </div>
+
+  <div class="creation-content">
+    <mat-card>
+      <mat-card-content>
+        <form [formGroup]="workspaceForm" class="creation-form">
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Workspace Name</mat-label>
+              <input matInput formControlName="name" placeholder="Enter workspace name">
+              <mat-error *ngIf="workspaceForm.get('name')?.hasError('required')">
+                Workspace name is required
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Workspace Key</mat-label>
+              <input matInput formControlName="key" placeholder="workspace-key">
+              <mat-hint>Lowercase letters, numbers, and hyphens only</mat-hint>
+              <mat-error *ngIf="workspaceForm.get('key')?.hasError('required')">
+                Workspace key is required
+              </mat-error>
+              <mat-error *ngIf="workspaceForm.get('key')?.hasError('pattern')">
+                Only lowercase letters, numbers, and hyphens are allowed
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Description</mat-label>
+            <textarea matInput formControlName="description" placeholder="Describe your workspace" rows="3"></textarea>
+          </mat-form-field>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Max Flags Per Project</mat-label>
+              <input matInput type="number" formControlName="maxFlagsPerProject" min="1">
+              <mat-error *ngIf="workspaceForm.get('maxFlagsPerProject')?.hasError('required')">
+                Max flags per project is required
+              </mat-error>
+              <mat-error *ngIf="workspaceForm.get('maxFlagsPerProject')?.hasError('min')">
+                Must be at least 1
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="checkbox-row">
+            <mat-checkbox formControlName="allowPublicFlags">
+              Allow Public Flags
+            </mat-checkbox>
+            <mat-checkbox formControlName="requireApproval">
+              Require Approval for Changes
+            </mat-checkbox>
+          </div>
+
+          <div class="form-actions">
+            <button mat-button type="button" (click)="onCancel()">
+              Cancel
+            </button>
+            <button mat-raised-button color="primary" (click)="onCreateWorkspace()" [disabled]="!workspaceForm.valid">
+              <mat-icon>add</mat-icon>
+              Create Workspace
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div> 

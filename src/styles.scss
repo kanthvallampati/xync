@@ -1,1 +1,208 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* Global dark theme styles */
+html,
+body {
+  height: 100%;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  background-color: #121212;
+  color: #ffffff;
+}
+
+body {
+  margin: 0;
+}
+
+/* Dark theme overrides for Material components */
+.mat-mdc-card {
+  background-color: #1e1e1e !important;
+  color: #ffffff !important;
+}
+
+.mat-mdc-raised-button {
+  &:not(:disabled) {
+    color: #000000 !important;
+  }
+  
+  &.mat-primary {
+    background-color: #1976d2 !important;
+    
+    &:hover {
+      background-color: #1565c0 !important;
+    }
+  }
+}
+
+.mat-mdc-chip.mat-mdc-chip-selected {
+  &.mat-primary {
+    background-color: #1976d2 !important;
+    color: white !important;
+  }
+  
+  &.mat-accent {
+    background-color: #4caf50 !important;
+    color: white !important;
+  }
+  
+  &.mat-warn {
+    background-color: #f44336 !important;
+    color: white !important;
+  }
+}
+
+/* Dark theme scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #2d2d2d;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #555555;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #777777;
+}
+
+/* Dark theme utility classes */
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.mb-0 {
+  margin-bottom: 0;
+}
+
+.mt-0 {
+  margin-top: 0;
+}
+
+.p-0 {
+  padding: 0;
+}
+
+/* Dark theme loading spinner */
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 32px;
+}
+
+/* Dark theme empty state */
+.empty-state {
+  text-align: center;
+  padding: 64px 24px;
+  color: #b0b0b0;
+  
+  mat-icon {
+    font-size: 64px;
+    width: 64px;
+    height: 64px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+  }
+  
+  h3 {
+    margin: 0 0 8px 0;
+    font-size: 20px;
+    font-weight: 500;
+    color: #ffffff;
+  }
+  
+  p {
+    margin: 0;
+    font-size: 14px;
+    color: #b0b0b0;
+  }
+}
+
+/* Dark theme form fields */
+.mat-mdc-form-field {
+  .mat-mdc-text-field-wrapper {
+    background-color: #2d2d2d !important;
+  }
+  
+  .mat-mdc-form-field-label {
+    color: #b0b0b0 !important;
+  }
+  
+  .mat-mdc-input-element {
+    color: #ffffff !important;
+  }
+}
+
+/* Dark theme table */
+.mat-mdc-table {
+  background-color: #1e1e1e !important;
+  
+  .mat-mdc-header-cell {
+    background-color: #2d2d2d !important;
+    color: #ffffff !important;
+  }
+  
+  .mat-mdc-cell {
+    color: #ffffff !important;
+  }
+  
+  .mat-mdc-row:hover {
+    background-color: #2d2d2d !important;
+  }
+}
+
+/* Dark theme dialog */
+.mat-mdc-dialog-container {
+  .mat-mdc-dialog-surface {
+    background-color: #1e1e1e !important;
+    color: #ffffff !important;
+  }
+}
+
+/* Dark theme menu */
+.mat-mdc-menu-panel {
+  background-color: #1e1e1e !important;
+  
+  .mat-mdc-menu-item {
+    color: #ffffff !important;
+    
+    &:hover {
+      background-color: #2d2d2d !important;
+    }
+  }
+}
+
+/* Dark theme tooltip */
+.mat-mdc-tooltip {
+  background-color: #2d2d2d !important;
+  color: #ffffff !important;
+}
+
+/* Dark theme snackbar */
+.mat-mdc-snack-bar-container {
+  .mat-mdc-snack-bar-surface {
+    background-color: #1e1e1e !important;
+    color: #ffffff !important;
+  }
+}
+
+.mat-internal-form-field > label,
+.mat-mdc-select-value,
+.mat-mdc-standard-chip:not(.mdc-evolution-chip--disabled) .mdc-evolution-chip__text-label {
+  color: #ffffff !important;
+}
+
+.mat-mdc-form-field .mdc-text-field--outlined .mdc-notched-outline--upgraded .mdc-floating-label--float-above {
+  color: #999999 !important;
+}

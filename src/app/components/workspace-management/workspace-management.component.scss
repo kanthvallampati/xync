@@ -1,0 +1,288 @@
+.workspace-management-container {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #121212;
+  min-height: 100vh;
+}
+
+.management-header {
+  text-align: center;
+  margin-bottom: 32px;
+
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 300;
+    margin-bottom: 8px;
+    color: #64b5f6;
+  }
+
+  p {
+    font-size: 1.1rem;
+    color: #b0b0b0;
+    margin: 0;
+  }
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.stat-card {
+  .stat-content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1e3a5f, #1976d2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+
+    mat-icon {
+      font-size: 24px;
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  .stat-info {
+    flex: 1;
+  }
+
+  .stat-number {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #64b5f6;
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.9rem;
+    color: #b0b0b0;
+    margin-top: 4px;
+  }
+}
+
+.management-content {
+  .management-tabs {
+    ::ng-deep .mat-mdc-tab-header {
+      border-bottom: 2px solid #2d2d2d;
+    }
+
+    ::ng-deep .mat-mdc-tab-label {
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #ffffff;
+    }
+  }
+}
+
+.tab-content {
+  padding: 24px 0;
+}
+
+.tab-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+
+  h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #ffffff;
+  }
+
+  p {
+    margin: 8px 0 0;
+    color: #b0b0b0;
+  }
+}
+
+.workspaces-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 24px;
+}
+
+.workspace-card {
+  .card-actions {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+  }
+
+  .workspace-details {
+    margin-bottom: 16px;
+  }
+
+  .detail-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+
+    .label {
+      font-weight: 500;
+      color: #b0b0b0;
+    }
+
+    .value {
+      color: #ffffff;
+    }
+  }
+
+  .workspace-status {
+    margin-top: 16px;
+  }
+}
+
+.workspace-settings {
+  max-width: 600px;
+}
+
+.settings-form,
+.create-form,
+.member-form,
+.invitation-form {
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .full-width {
+    width: 100%;
+    margin-bottom: 16px;
+  }
+
+  .checkbox-row {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+  }
+}
+
+.members-table {
+  width: 100%;
+
+  .mat-column-actions {
+    width: 80px;
+    text-align: center;
+  }
+}
+
+.invitation-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 8px 0;
+}
+
+.invitation-info {
+  flex: 1;
+
+  .invitation-email {
+    font-weight: 500;
+    color: #ffffff;
+    margin-bottom: 4px;
+  }
+
+  .invitation-details {
+    font-size: 0.8rem;
+    color: #b0b0b0;
+  }
+}
+
+.invitation-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 48px 24px;
+
+  mat-icon {
+    font-size: 64px;
+    width: 64px;
+    height: 64px;
+    color: #b0b0b0;
+    margin-bottom: 16px;
+    opacity: 0.5;
+  }
+
+  h3 {
+    margin: 0 0 8px;
+    color: #ffffff;
+    font-weight: 500;
+  }
+
+  p {
+    margin: 0;
+    color: #b0b0b0;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .workspace-management-container {
+    padding: 16px;
+  }
+
+  .management-header h1 {
+    font-size: 2rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tab-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .workspaces-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .settings-form .form-row,
+  .create-form .form-row,
+  .member-form .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .checkbox-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .invitation-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+} 

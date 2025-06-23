@@ -1,0 +1,29 @@
+.header {
+  display: flex;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #121212;
+  border-bottom: 1px solid #2d2d2d;
+  padding: 0 1rem;
+
+  .header-items-left {
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+    align-items: center;
+    height: 64px; 
+  }
+
+  .header-items-right {
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+    align-items: center;
+    height: 64px;
+  }
+
+  .header-brand {
+    margin-right: 1rem;
+  }
+} 

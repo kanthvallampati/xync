@@ -1,0 +1,46 @@
+<div class="workspace-selector">
+  <button 
+    mat-button 
+    [matMenuTriggerFor]="workspaceMenu" 
+    class="workspace-button"
+    matTooltip="Switch workspace">
+    <mat-icon>business</mat-icon>
+    <span class="workspace-name">{{ currentWorkspace?.name || 'Select Workspace' }}</span>
+    <mat-icon>arrow_drop_down</mat-icon>
+  </button>
+
+  <mat-menu #workspaceMenu="matMenu" class="workspace-menu">
+    <div class="menu-header">
+      <h3>Workspaces</h3>
+    </div>
+    
+    <div class="workspace-list">
+      <button 
+        mat-menu-item 
+        *ngFor="let workspace of workspaces" 
+        (click)="onWorkspaceChange(workspace)"
+        [class.active]="workspace.id === currentWorkspace?.id">
+        <div class="workspace-item">
+          <div class="workspace-info">
+            <div class="workspace-name">{{ getWorkspaceDisplayName(workspace) }}</div>
+            <div class="workspace-description">{{ getWorkspaceDescription(workspace) }}</div>
+          </div>
+          <mat-icon *ngIf="workspace.id === currentWorkspace?.id" class="check-icon">check</mat-icon>
+        </div>
+      </button>
+    </div>
+
+    <mat-divider></mat-divider>
+    
+    <div class="menu-actions">
+      <button mat-menu-item (click)="createNewWorkspace()">
+        <mat-icon>add</mat-icon>
+        <span>Create Workspace</span>
+      </button>
+      <button mat-menu-item (click)="manageWorkspaces()">
+        <mat-icon>settings</mat-icon>
+        <span>Manage Workspaces</span>
+      </button>
+    </div>
+  </mat-menu>
+</div> 

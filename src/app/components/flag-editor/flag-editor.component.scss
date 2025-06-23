@@ -1,0 +1,224 @@
+.flag-editor-container {
+  padding: 24px;
+  background-color: #121212;
+  min-height: 100vh;
+}
+
+.editor-header {
+  margin-bottom: 32px;
+  
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 720px;
+
+    h1 {
+      margin: 0;
+      font-size: 32px;
+      font-weight: 600;
+      color: #ffffff;
+    }
+    
+    .header-actions {
+      display: flex;
+      gap: 12px;
+    }
+  }
+}
+
+.flag-form {
+  .form-grid {
+    display: grid;
+    gap: 24px;
+    max-width: 720px;
+  }
+}
+
+.form-section {
+  .mat-mdc-card-header {
+    padding-bottom: 16px;
+    
+    .mat-mdc-card-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 4px;
+    }
+    
+    .mat-mdc-card-subtitle {
+      color: #b0b0b0;
+      font-size: 14px;
+    }
+  }
+  
+  .mat-mdc-card-content {
+    padding-top: 0;
+  }
+}
+
+.form-row {
+  margin-bottom: 1.5rem;
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+  
+  h4 {
+    margin: 0 0 16px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+  }
+  
+  .checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    
+    .mat-mdc-checkbox {
+      margin: 0;
+    }
+  }
+}
+
+.form-field {
+  width: 100%;
+}
+
+.variations-container {
+  .variation-item {
+    border: 1px solid #2d2d2d;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+    background-color: #1e1e1e;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+    
+    .variation-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      
+      .variation-index {
+        font-weight: 600;
+        color: #ffffff;
+        font-size: 14px;
+      }
+    }
+    
+    .variation-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      
+      @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .variation-field {
+      width: 100%;
+    }
+  }
+}
+
+.variation-actions {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #2d2d2d;
+  
+  button {
+    color: #64b5f6;
+    
+    mat-icon {
+      margin-right: 8px;
+    }
+  }
+}
+
+// Material Design overrides for dark theme
+.mat-mdc-card {
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  border: 1px solid #2d2d2d;
+  background-color: #1e1e1e;
+}
+
+.mat-mdc-form-field {
+  .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+  }
+}
+
+.mat-mdc-checkbox {
+  .mdc-checkbox {
+    .mdc-checkbox__background {
+      border-color: #b0b0b0;
+    }
+  }
+  
+  &.mat-mdc-checkbox-checked {
+    .mdc-checkbox {
+      .mdc-checkbox__background {
+        border-color: #64b5f6;
+        background-color: #64b5f6;
+      }
+    }
+  }
+}
+
+.mat-mdc-chip-grid {
+  .mat-mdc-chip-row {
+    .mat-mdc-chip {
+      background-color: #1e3a5f;
+      color: #64b5f6;
+      border-radius: 16px;
+      
+      .mat-mdc-chip-remove {
+        color: #64b5f6;
+      }
+    }
+  }
+}
+
+.mat-mdc-divider {
+  margin: 24px 0;
+  border-color: #2d2d2d;
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .flag-editor-container {
+    padding: 16px;
+  }
+  
+  .editor-header {
+    .header-content {
+      flex-direction: column;
+      gap: 16px;
+      align-items: flex-start;
+      
+      h1 {
+        font-size: 24px;
+      }
+      
+      .header-actions {
+        width: 100%;
+        justify-content: flex-end;
+      }
+    }
+  }
+  
+  .form-section {
+    .mat-mdc-card-header {
+      .mat-mdc-card-title {
+        font-size: 18px;
+      }
+    }
+  }
+} 

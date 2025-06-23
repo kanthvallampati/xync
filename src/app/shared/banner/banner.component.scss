@@ -1,0 +1,14 @@
+.banner {
+  padding: 2rem 0;
+  text-align: center;
+
+  &.info {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+  &.warning {
+    background: linear-gradient(135deg, #ff4d4d 0%, #ff7929 100%);
+  }
+  &.success {
+    background: linear-gradient(135deg, #4caf50 0%, #008000 100%);
+  }
+} 

@@ -1,0 +1,182 @@
+<div class="flag-editor-container">
+  <div class="editor-header">
+    <div class="header-content">
+      <h1>{{ isEditMode ? 'Edit Feature Flag' : 'Create Feature Flag' }}</h1>
+      <div class="header-actions">
+        <button mat-button (click)="onCancel()">Cancel</button>
+        <button mat-flat-button color="primary" (click)="onSubmit()" [disabled]="!flagForm.valid || loading">
+          <mat-icon *ngIf="loading">hourglass_empty</mat-icon>
+          {{ isEditMode ? 'Update' : 'Create' }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <form [formGroup]="flagForm" class="flag-form">
+    <div class="form-grid">
+      <!-- Basic Settings -->
+      <mat-card class="form-section">
+        <mat-card-header>
+          <mat-card-title>Basic Settings</mat-card-title>
+          <mat-card-subtitle>Configure the basic properties of your feature flag</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-label>Flag Key</mat-label>
+              <input matInput formControlName="key" placeholder="my-feature-flag" [readonly]="isEditMode">
+              <mat-hint>Unique identifier for the flag (lowercase, hyphens only)</mat-hint>
+              <mat-error *ngIf="flagForm.get('key')?.hasError('required')">Flag key is required</mat-error>
+              <mat-error *ngIf="flagForm.get('key')?.hasError('pattern')">Only lowercase letters, numbers, and hyphens allowed</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-label>Name</mat-label>
+              <input matInput formControlName="name" placeholder="My Feature Flag">
+              <mat-error *ngIf="flagForm.get('name')?.hasError('required')">Name is required</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-label>Description</mat-label>
+              <textarea matInput formControlName="description" placeholder="Describe what this flag controls" rows="3"></textarea>
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-label>Flag Type</mat-label>
+              <mat-select formControlName="kind" (selectionChange)="onFlagTypeChange()">
+                <mat-option *ngFor="let type of flagTypes" [value]="type.value">
+                  {{ type.label }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-checkbox formControlName="temporary">
+              Temporary flag (will be cleaned up automatically)
+            </mat-checkbox>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-label>Tags</mat-label>
+              <mat-chip-grid #chipGrid>
+                <mat-chip-row *ngFor="let tag of flagForm.get('tags')?.value" 
+                             (removed)="removeTag(tag)">
+                  {{ tag }}
+                  <button matChipRemove>
+                    <mat-icon>cancel</mat-icon>
+                  </button>
+                </mat-chip-row>
+              </mat-chip-grid>
+              <input placeholder="Add tag..." 
+                     [matChipInputFor]="chipGrid"
+                     (matChipInputTokenEnd)="addTag($event)">
+            </mat-form-field>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Variations -->
+      <mat-card class="form-section">
+        <mat-card-header>
+          <mat-card-title>Variations</mat-card-title>
+          <mat-card-subtitle>Define the possible values for this flag</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div formArrayName="variations" class="variations-container">
+            <div *ngFor="let variation of variations.controls; let i = index" 
+                 [formGroupName]="i" 
+                 class="variation-item">
+              <div class="variation-header">
+                <span class="variation-index">Variation {{ i + 1 }}</span>
+                <button mat-icon-button type="button" 
+                        (click)="removeVariation(i)"
+                        [disabled]="variations.length <= 1"
+                        matTooltip="Remove variation">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+              
+              <div class="variation-content">
+                <mat-form-field appearance="outline" class="variation-field">
+                  <mat-label>Value</mat-label>
+                  <input matInput formControlName="value" 
+                         [placeholder]="flagForm.get('kind')?.value === 'boolean' ? 'true/false' : 'Enter value'">
+                </mat-form-field>
+                
+                <mat-form-field appearance="outline" class="variation-field">
+                  <mat-label>Name (Optional)</mat-label>
+                  <input matInput formControlName="name" placeholder="e.g., Enabled, Disabled">
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          
+          <div class="variation-actions">
+            <button mat-button type="button" (click)="addVariation()">
+              <mat-icon>add</mat-icon>
+              Add Variation
+            </button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Targeting -->
+      <mat-card class="form-section">
+        <mat-card-header>
+          <mat-card-title>Targeting</mat-card-title>
+          <mat-card-subtitle>Configure how the flag is evaluated</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-label>Default Variation (When Flag is On)</mat-label>
+              <mat-select formControlName="defaultVariation">
+                <mat-option *ngFor="let variation of variations.controls; let i = index" [value]="i">
+                  Variation {{ i }}: {{ variation.value.name || variation.value.value }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-label>Off Variation (When Flag is Off)</mat-label>
+              <mat-select formControlName="offVariation">
+                <mat-option *ngFor="let variation of variations.controls; let i = index" [value]="i">
+                  Variation {{ i }}: {{ variation.value.name || variation.value.value }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="form-section">
+        <mat-card-header>
+          <mat-card-title>Client-Side Availability</mat-card-title>
+          <mat-card-subtitle>Configure how the flag is evaluated</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="form-row">
+            <div class="checkbox-group">
+              <mat-checkbox formControlName="usingEnvironmentId">
+                Available in client-side SDKs using environment ID
+              </mat-checkbox>
+              <mat-checkbox formControlName="usingMobileKey">
+                Available in mobile SDKs using mobile key
+              </mat-checkbox>
+            </div>
+          </div>  
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </form>
+</div> 

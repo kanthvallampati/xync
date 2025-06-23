@@ -1,0 +1,279 @@
+.flag-tester-container {
+  padding: 24px;
+  background-color: #121212;
+  min-height: 100vh;
+}
+
+.tester-header {
+  margin-bottom: 32px;
+  
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    h1 {
+      margin: 0;
+      font-size: 32px;
+      font-weight: 600;
+      color: #ffffff;
+    }
+    
+    .header-actions {
+      display: flex;
+      gap: 12px;
+    }
+  }
+}
+
+.tester-content {
+  .content-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    
+    @media (max-width: 1200px) {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+.tester-card {
+  .mat-mdc-card-header {
+    padding-bottom: 16px;
+    
+    .mat-mdc-card-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 4px;
+    }
+    
+    .mat-mdc-card-subtitle {
+      color: #b0b0b0;
+      font-size: 14px;
+    }
+  }
+}
+
+.user-form {
+  .form-row {
+    margin-bottom: 16px;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  
+  .form-field {
+    width: 100%;
+  }
+  
+  .form-actions {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid #2d2d2d;
+  }
+}
+
+.evaluation-result {
+  .result-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #2d2d2d;
+    
+    &:last-child {
+      border-bottom: none;
+    }
+    
+    .result-label {
+      font-weight: 600;
+      color: #ffffff;
+    }
+    
+    .result-value {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      
+      .value-display {
+        font-family: 'Courier New', monospace;
+        background-color: #1e1e1e;
+        color: #ffffff;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 14px;
+        border: 1px solid #2d2d2d;
+      }
+      
+      .variation-name {
+        font-size: 12px;
+        color: #b0b0b0;
+      }
+    }
+  }
+}
+
+.flag-info {
+  .info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 12px 0;
+    border-bottom: 1px solid #2d2d2d;
+    
+    &:last-child {
+      border-bottom: none;
+    }
+    
+    .info-label {
+      font-weight: 600;
+      color: #ffffff;
+      min-width: 100px;
+    }
+    
+    .info-value {
+      flex: 1;
+      text-align: right;
+      
+      .type-badge {
+        background-color: #1e3a5f;
+        color: #64b5f6;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 500;
+        margin-right: 8px;
+      }
+      
+      .temporary-icon {
+        font-size: 16px;
+        width: 16px;
+        height: 16px;
+        color: #ffb74d;
+        vertical-align: middle;
+      }
+      
+      .variations-list {
+        .variation-item {
+          display: flex;
+          gap: 8px;
+          margin-bottom: 4px;
+          
+          &:last-child {
+            margin-bottom: 0;
+          }
+          
+          .variation-index {
+            font-weight: 600;
+            color: #b0b0b0;
+            min-width: 20px;
+          }
+          
+          .variation-value {
+            font-family: 'Courier New', monospace;
+            background-color: #1e1e1e;
+            color: #ffffff;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 12px;
+            border: 1px solid #2d2d2d;
+          }
+        }
+      }
+      
+      .tag-chip {
+        background-color: #1e3a5f;
+        color: #64b5f6;
+        margin: 2px;
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 24px;
+  
+  p {
+    margin: 16px 0 0 0;
+    color: #b0b0b0;
+  }
+}
+
+.not-found-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+}
+
+// Material Design overrides for dark theme
+.mat-mdc-card {
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  border: 1px solid #2d2d2d;
+  background-color: #1e1e1e;
+}
+
+.mat-mdc-form-field {
+  .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .flag-tester-container {
+    padding: 16px;
+  }
+  
+  .tester-header {
+    .header-content {
+      flex-direction: column;
+      gap: 16px;
+      align-items: flex-start;
+      
+      h1 {
+        font-size: 24px;
+      }
+      
+      .header-actions {
+        width: 100%;
+        justify-content: flex-end;
+      }
+    }
+  }
+  
+  .evaluation-result {
+    .result-item {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+      
+      .result-value {
+        width: 100%;
+        justify-content: flex-start;
+      }
+    }
+  }
+  
+  .flag-info {
+    .info-item {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+      
+      .info-value {
+        width: 100%;
+        text-align: left;
+      }
+    }
+  }
+} 

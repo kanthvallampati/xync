@@ -1,0 +1,175 @@
+<div class="analytics-container">
+  <div class="analytics-header">
+    <div class="header-content">
+      <h1>Analytics: {{ flag?.name || flagKey }}</h1>
+      <div class="header-actions">
+        <button mat-button routerLink="/flags/{{ flagKey }}">
+          <mat-icon>arrow_back</mat-icon>
+          Back to Flag
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="analytics-content" *ngIf="!loading && flag">
+    <!-- Overview Stats -->
+    <div class="stats-grid">
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-content">
+            <div class="stat-icon">
+              <mat-icon>analytics</mat-icon>
+            </div>
+            <div class="stat-info">
+              <div class="stat-number">{{ analytics.totalEvaluations || 0 }}</div>
+              <div class="stat-label">Total Evaluations</div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-content">
+            <div class="stat-icon active">
+              <mat-icon>trending_up</mat-icon>
+            </div>
+            <div class="stat-info">
+              <div class="stat-number">{{ flag.fallthrough.variation !== undefined ? 'Active' : 'Inactive' }}</div>
+              <div class="stat-label">Flag Status</div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-content">
+            <div class="stat-icon variations">
+              <mat-icon>layers</mat-icon>
+            </div>
+            <div class="stat-info">
+              <div class="stat-number">{{ flag.variations.length }}</div>
+              <div class="stat-label">Variations</div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Variation Distribution -->
+    <mat-card class="analytics-card">
+      <mat-card-header>
+        <mat-card-title>Variation Distribution</mat-card-title>
+        <mat-card-subtitle>How often each variation is served</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="variation-distribution" *ngIf="analytics.variations && Object.keys(analytics.variations).length > 0">
+          <div class="variation-item" *ngFor="let variation of flag.variations; let i = index">
+            <div class="variation-info">
+              <div class="variation-name">{{ getVariationName(i) }}</div>
+              <div class="variation-count">
+                {{ analytics.variations['variation-' + i] || 0 }} evaluations
+              </div>
+            </div>
+            <div class="variation-bar">
+              <mat-progress-bar 
+                mode="determinate" 
+                [value]="getVariationPercentage(analytics.variations['variation-' + i] || 0)"
+                color="primary">
+              </mat-progress-bar>
+              <div class="variation-percentage">
+                {{ getVariationPercentage(analytics.variations['variation-' + i] || 0) }}%
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="no-data" *ngIf="!analytics.variations || Object.keys(analytics.variations).length === 0">
+          <mat-icon>info</mat-icon>
+          <p>No evaluation data available yet</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Recent Evaluations -->
+    <mat-card class="analytics-card">
+      <mat-card-header>
+        <mat-card-title>Recent Evaluations</mat-card-title>
+        <mat-card-subtitle>Latest flag evaluations</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="evaluations-table" *ngIf="recentEvaluations.length > 0">
+          <table mat-table [dataSource]="recentEvaluations" class="evaluations-table">
+            <!-- User Column -->
+            <ng-container matColumnDef="user">
+              <th mat-header-cell *matHeaderCellDef>User</th>
+              <td mat-cell *matCellDef="let evaluation">
+                <div class="user-info">
+                  <div class="user-key">{{ evaluation.user.key }}</div>
+                  <div class="user-details" *ngIf="evaluation.user.name || evaluation.user.email">
+                    {{ evaluation.user.name || evaluation.user.email }}
+                  </div>
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- Value Column -->
+            <ng-container matColumnDef="value">
+              <th mat-header-cell *matHeaderCellDef>Value</th>
+              <td mat-cell *matCellDef="let evaluation">
+                <div class="evaluation-value">
+                  {{ evaluation.value }}
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- Reason Column -->
+            <ng-container matColumnDef="reason">
+              <th mat-header-cell *matHeaderCellDef>Reason</th>
+              <td mat-cell *matCellDef="let evaluation">
+                <mat-chip [color]="getReasonColor(evaluation.reason)" selected>
+                  {{ getReasonDisplay(evaluation.reason) }}
+                </mat-chip>
+              </td>
+            </ng-container>
+
+            <!-- Timestamp Column -->
+            <ng-container matColumnDef="timestamp">
+              <th mat-header-cell *matHeaderCellDef>Time</th>
+              <td mat-cell *matCellDef="let evaluation">
+                <div class="timestamp">
+                  {{ evaluation.user.key === 'test-user' ? 'Just now' : 'Recently' }}
+                </div>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </div>
+        <div class="no-data" *ngIf="recentEvaluations.length === 0">
+          <mat-icon>info</mat-icon>
+          <p>No recent evaluations</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-container" *ngIf="loading">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    <p>Loading analytics...</p>
+  </div>
+
+  <!-- Not Found State -->
+  <div class="not-found-container" *ngIf="!loading && !flag">
+    <div class="empty-state">
+      <mat-icon>flag</mat-icon>
+      <h3>Flag Not Found</h3>
+      <p>The flag "{{ flagKey }}" could not be found.</p>
+      <button mat-raised-button color="primary" routerLink="/">
+        Back to Dashboard
+      </button>
+    </div>
+  </div>
+</div> 

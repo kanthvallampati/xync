@@ -1,0 +1,85 @@
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDividerModule } from '@angular/material/divider';
+import { Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
+import { Workspace } from '../../models/workspace.model';
+import { WorkspaceService } from '../../services/workspace.service';
+
+@Component({
+  selector: 'app-workspace-selector',
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatIconModule,
+    MatMenuModule,
+    MatDialogModule,
+    MatTooltipModule,
+    MatDividerModule
+  ],
+  templateUrl: './workspace-selector.component.html',
+  styleUrls: ['./workspace-selector.component.scss']
+})
+export class WorkspaceSelectorComponent implements OnInit, OnDestroy {
+  workspaces: Workspace[] = [];
+  currentWorkspace: Workspace | null = null;
+  private destroy$ = new Subject<void>();
+
+  constructor(
+    private workspaceService: WorkspaceService,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    this.workspaceService.getWorkspaces()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(workspaces => {
+        this.workspaces = workspaces;
+      });
+
+    this.workspaceService.getCurrentWorkspace()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(workspace => {
+        this.currentWorkspace = workspace;
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  onWorkspaceChange(workspace: Workspace): void {
+    this.workspaceService.setCurrentWorkspace(workspace);
+    // Optionally refresh the current page or navigate to workspace-specific route
+    this.router.navigate(['/']);
+  }
+
+  createNewWorkspace(): void {
+    // Navigate to workspace creation page
+    this.router.navigate(['/workspaces/new']);
+  }
+
+  manageWorkspaces(): void {
+    // Navigate to workspace management page
+    this.router.navigate(['/workspaces']);
+  }
+
+  getWorkspaceDisplayName(workspace: Workspace): string {
+    return workspace.name || workspace.key;
+  }
+
+  getWorkspaceDescription(workspace: Workspace): string {
+    return workspace.description || `${workspace.members.length} members`;
+  }
+} 
