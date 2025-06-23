@@ -5,6 +5,8 @@ import { AnalyticsComponent } from './modules/flags/analytics/analytics.componen
 import { FlagTesterComponent } from './modules/flags/flag-tester/flag-tester.component';
 import { WorkspaceManagementComponent } from './modules/workspaces/workspace-management/workspace-management.component';
 import { WorkspaceCreationComponent } from './modules/workspaces/workspace-creation/workspace-creation.component';
+import { BillingComponent } from './modules/billing/billing.component';
+import { billingOwnerGuard } from './modules/billing/billing-owner.guard';
 
 export const routes: Routes = [
   { path: '', component: DashboardComponent },
@@ -14,5 +16,6 @@ export const routes: Routes = [
   { path: 'flags/:key/test', component: FlagTesterComponent },
   { path: 'workspaces', component: WorkspaceManagementComponent },
   { path: 'workspaces/new', component: WorkspaceCreationComponent },
+  { path: 'billing', component: BillingComponent, canActivate: [billingOwnerGuard] },
   { path: '**', redirectTo: '' }
 ];

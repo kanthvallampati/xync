@@ -27,6 +27,8 @@ import { Subject, takeUntil } from 'rxjs';
 // Models & Services
 import { Workspace, WorkspaceMember, WorkspaceRole, WorkspaceInvitation, WorkspaceStats } from '../models/workspace.model';
 import { WorkspaceService } from '../services/workspace.service';
+import { Project } from '../models/project.model';
+import { ProjectService } from '../services/project.service';
 
 
 @Component({
@@ -65,6 +67,7 @@ export class WorkspaceManagementComponent implements OnInit, OnDestroy {
   selectedTab = 0;
   displayedColumns = ['name', 'role', 'email', 'joinedAt', 'actions'];
   WorkspaceRole = WorkspaceRole; // Make enum available in template
+  projects: Project[] = [];
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -72,7 +75,8 @@ export class WorkspaceManagementComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private projectService: ProjectService
   ) {
     this.workspaceForm = this.fb.group({
       name: ['', Validators.required],
@@ -86,12 +90,12 @@ export class WorkspaceManagementComponent implements OnInit, OnDestroy {
     this.memberForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       name: ['', Validators.required],
-      role: [WorkspaceRole.EDITOR, Validators.required]
+      role: [WorkspaceRole.MEMBER, Validators.required]
     });
 
     this.invitationForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      role: [WorkspaceRole.EDITOR, Validators.required]
+      role: [WorkspaceRole.MEMBER, Validators.required]
     });
   }
 
@@ -117,13 +121,14 @@ export class WorkspaceManagementComponent implements OnInit, OnDestroy {
         this.currentWorkspace = workspace;
         if (workspace) {
           this.loadWorkspaceStats(workspace.id);
+          this.loadProjects(workspace.id);
         }
       });
 
-    this.workspaceService.getInvitations()
+    this.workspaceService.getProjects()
       .pipe(takeUntil(this.destroy$))
-      .subscribe(invitations => {
-        this.invitations = invitations;
+      .subscribe(projects => {
+        this.projects = projects;
       });
   }
 
@@ -132,6 +137,14 @@ export class WorkspaceManagementComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(stats => {
         this.workspaceStats = stats;
+      });
+  }
+
+  private loadProjects(workspaceId: string): void {
+    this.workspaceService.getProjectsByWorkspace(workspaceId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(projects => {
+        this.projects = projects;
       });
   }
 
@@ -162,8 +175,7 @@ export class WorkspaceManagementComponent implements OnInit, OnDestroy {
         userId: `user-${Date.now()}`,
         email: memberData.email,
         name: memberData.name,
-        role: memberData.role,
-        permissions: this.getPermissionsForRole(memberData.role)
+        workspaceRole: memberData.role,
       }).subscribe(success => {
         if (success) {
           this.snackBar.open('Member added successfully', 'Close', { duration: 3000 });
@@ -221,10 +233,8 @@ export class WorkspaceManagementComponent implements OnInit, OnDestroy {
         return ['read', 'write', 'delete', 'admin'];
       case WorkspaceRole.ADMIN:
         return ['read', 'write', 'delete', 'admin'];
-      case WorkspaceRole.EDITOR:
+      case WorkspaceRole.MEMBER:
         return ['read', 'write'];
-      case WorkspaceRole.VIEWER:
-        return ['read'];
       default:
         return ['read'];
     }
@@ -240,10 +250,8 @@ export class WorkspaceManagementComponent implements OnInit, OnDestroy {
         return 'primary';
       case WorkspaceRole.ADMIN:
         return 'accent';
-      case WorkspaceRole.EDITOR:
+      case WorkspaceRole.MEMBER:
         return 'warn';
-      case WorkspaceRole.VIEWER:
-        return 'default';
       default:
         return 'default';
     }

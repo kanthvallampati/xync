@@ -39,11 +39,11 @@
       <mat-card-content>
         <div class="stat-content">
           <div class="stat-icon">
-            <mat-icon>mail</mat-icon>
+            <mat-icon>folder</mat-icon>
           </div>
           <div class="stat-info">
-            <div class="stat-number">{{ invitations.length }}</div>
-            <div class="stat-label">Pending Invitations</div>
+            <div class="stat-number">{{ projects.length }}</div>
+            <div class="stat-label">Total Projects</div>
           </div>
         </div>
       </mat-card-content>
@@ -214,13 +214,9 @@
                         <mat-icon>admin_panel_settings</mat-icon>
                         <span>Make Admin</span>
                       </button>
-                      <button mat-menu-item (click)="onUpdateMemberRole(member.userId, WorkspaceRole.EDITOR)">
+                      <button mat-menu-item (click)="onUpdateMemberRole(member.userId, WorkspaceRole.MEMBER)">
                         <mat-icon>edit</mat-icon>
-                        <span>Make Editor</span>
-                      </button>
-                      <button mat-menu-item (click)="onUpdateMemberRole(member.userId, WorkspaceRole.VIEWER)">
-                        <mat-icon>visibility</mat-icon>
-                        <span>Make Viewer</span>
+                        <span>Make Member</span>
                       </button>
                       <button mat-menu-item (click)="onRemoveMember(member.userId)">
                         <mat-icon>person_remove</mat-icon>
@@ -262,10 +258,8 @@
                 <mat-form-field appearance="outline">
                   <mat-label>Role</mat-label>
                   <mat-select formControlName="role">
-                    <mat-option [value]="WorkspaceRole.OWNER">Owner</mat-option>
                     <mat-option [value]="WorkspaceRole.ADMIN">Admin</mat-option>
-                    <mat-option [value]="WorkspaceRole.EDITOR">Editor</mat-option>
-                    <mat-option [value]="WorkspaceRole.VIEWER">Viewer</mat-option>
+                    <mat-option [value]="WorkspaceRole.MEMBER">Member</mat-option>
                   </mat-select>
                 </mat-form-field>
                 <div class="form-actions">

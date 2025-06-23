@@ -1,0 +1,46 @@
+<div class="workspace-selector">
+  <button 
+    mat-button 
+    [matMenuTriggerFor]="projectMenu" 
+    class="workspace-button"
+    matTooltip="Switch project">
+    <mat-icon>folder</mat-icon>
+    <span class="workspace-name">{{ currentProject?.name || 'Select Project' }}</span>
+    <mat-icon>arrow_drop_down</mat-icon>
+  </button>
+
+  <mat-menu #projectMenu="matMenu" class="workspace-menu">
+    <div class="menu-header">
+      <h3>Projects</h3>
+    </div>
+    
+    <div class="workspace-list">
+      <button 
+        mat-menu-item 
+        *ngFor="let project of projects" 
+        (click)="onProjectChange(project)"
+        [class.active]="project.id === currentProject?.id">
+        <div class="workspace-item">
+          <div class="workspace-info">
+            <div class="workspace-name">{{ getProjectDisplayName(project) }}</div>
+            <div class="workspace-description">{{ getProjectDescription(project) }}</div>
+          </div>
+          <mat-icon *ngIf="project.id === currentProject?.id" class="check-icon">check</mat-icon>
+        </div>
+      </button>
+    </div>
+
+    <mat-divider></mat-divider>
+    
+    <div class="menu-actions">
+      <button mat-menu-item (click)="createNewProject()">
+        <mat-icon>add</mat-icon>
+        <span>Create Project</span>
+      </button>
+      <button mat-menu-item (click)="manageProjects()">
+        <mat-icon>settings</mat-icon>
+        <span>Manage Projects</span>
+      </button>
+    </div>
+  </mat-menu>
+</div> 

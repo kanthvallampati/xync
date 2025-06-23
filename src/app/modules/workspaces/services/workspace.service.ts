@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Workspace, WorkspaceMember, WorkspaceRole, WorkspaceInvitation, WorkspaceStats } from '../models/workspace.model';
+import { Project, ProjectRole } from '../models/project.model';
+import { ProjectService } from './project.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,12 +11,35 @@ export class WorkspaceService {
   private workspaces = new BehaviorSubject<Workspace[]>([]);
   private currentWorkspace = new BehaviorSubject<Workspace | null>(null);
   private invitations = new BehaviorSubject<WorkspaceInvitation[]>([]);
+  projects: any;
 
-  constructor() {
+  constructor(private projectService: ProjectService) {
     this.initializeMockData();
   }
 
   private initializeMockData(): void {
+    const mockProjects: Project[] = [
+      {
+        id: 'project-1',
+        name: 'Core Platform',
+        description: 'Main platform project',
+        key: 'core-platform',
+        createdAt: new Date('2024-01-01'),
+        updatedAt: new Date('2024-01-20'),
+        createdBy: 'admin@acme.com',
+        members: [
+          {
+            userId: 'user-1',
+            email: 'admin@acme.com',
+            name: 'Admin User',
+            role: ProjectRole.EDITOR,
+            joinedAt: new Date('2024-01-01'),
+            permissions: ['read', 'write', 'delete', 'admin']
+          }
+        ],
+        environmentKeys: ['production', 'staging']
+      }
+    ];
     const mockWorkspaces: Workspace[] = [
       {
         id: 'workspace-1',
@@ -37,28 +62,26 @@ export class WorkspaceService {
             userId: 'user-1',
             email: 'admin@acme.com',
             name: 'Admin User',
-            role: WorkspaceRole.OWNER,
-            joinedAt: new Date('2024-01-01'),
-            permissions: ['read', 'write', 'delete', 'admin']
+            workspaceRole: WorkspaceRole.OWNER,
+            joinedAt: new Date('2024-01-01')
           },
           {
             userId: 'user-2',
             email: 'developer@acme.com',
             name: 'Developer User',
-            role: WorkspaceRole.EDITOR,
-            joinedAt: new Date('2024-01-05'),
-            permissions: ['read', 'write']
+            workspaceRole: WorkspaceRole.ADMIN,
+            joinedAt: new Date('2024-01-05')
           },
           {
             userId: 'user-3',
             email: 'viewer@acme.com',
             name: 'Viewer User',
-            role: WorkspaceRole.VIEWER,
-            joinedAt: new Date('2024-01-10'),
-            permissions: ['read']
+            workspaceRole: WorkspaceRole.MEMBER,
+            joinedAt: new Date('2024-01-10')
           }
         ],
-        environments: ['production', 'staging', 'development']
+        environments: ['production', 'staging', 'development'],
+        projects: mockProjects
       },
       {
         id: 'workspace-2',
@@ -81,39 +104,24 @@ export class WorkspaceService {
             userId: 'user-1',
             email: 'admin@acme.com',
             name: 'Admin User',
-            role: WorkspaceRole.ADMIN,
-            joinedAt: new Date('2024-01-15'),
-            permissions: ['read', 'write', 'delete', 'admin']
+            workspaceRole: WorkspaceRole.OWNER,
+            joinedAt: new Date('2024-01-15')
           },
           {
             userId: 'user-4',
-            email: 'beta@acme.com',
-            name: 'Beta Tester',
-            role: WorkspaceRole.EDITOR,
-            joinedAt: new Date('2024-01-16'),
-            permissions: ['read', 'write']
+            email: 'viewer@acme.com',
+            name: 'Viewer User',
+            workspaceRole: WorkspaceRole.MEMBER,
+            joinedAt: new Date('2024-01-10')
           }
         ],
-        environments: ['staging', 'development']
-      }
-    ];
-
-    const mockInvitations: WorkspaceInvitation[] = [
-      {
-        id: 'inv-1',
-        workspaceId: 'workspace-1',
-        email: 'newuser@acme.com',
-        role: WorkspaceRole.EDITOR,
-        invitedBy: 'admin@acme.com',
-        invitedAt: new Date('2024-01-19'),
-        expiresAt: new Date('2024-01-26'),
-        status: 'pending'
+        environments: ['staging', 'development'],
+        projects: []
       }
     ];
 
     this.workspaces.next(mockWorkspaces);
     this.currentWorkspace.next(mockWorkspaces[0]); // Set default workspace
-    this.invitations.next(mockInvitations);
   }
 
   // Workspace CRUD operations
@@ -250,7 +258,7 @@ export class WorkspaceService {
       const memberIndex = workspace.members.findIndex(m => m.userId === userId);
       
       if (memberIndex !== -1) {
-        workspace.members[memberIndex].role = role;
+        workspace.members[memberIndex].workspaceRole = role;
         workspace.updatedAt = new Date();
         
         currentWorkspaces[workspaceIndex] = workspace;
@@ -264,35 +272,8 @@ export class WorkspaceService {
   }
 
   // Invitation management
-  getInvitations(): Observable<WorkspaceInvitation[]> {
-    return this.invitations.asObservable();
-  }
-
-  createInvitation(invitation: Omit<WorkspaceInvitation, 'id' | 'invitedAt' | 'expiresAt' | 'status'>): Observable<WorkspaceInvitation> {
-    const newInvitation: WorkspaceInvitation = {
-      ...invitation,
-      id: `inv-${Date.now()}`,
-      invitedAt: new Date(),
-      expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days from now
-      status: 'pending'
-    };
-    
-    const currentInvitations = this.invitations.value;
-    this.invitations.next([...currentInvitations, newInvitation]);
-    return of(newInvitation);
-  }
-
-  acceptInvitation(invitationId: string): Observable<boolean> {
-    const currentInvitations = this.invitations.value;
-    const invitationIndex = currentInvitations.findIndex(inv => inv.id === invitationId);
-    
-    if (invitationIndex !== -1) {
-      currentInvitations[invitationIndex].status = 'accepted';
-      this.invitations.next([...currentInvitations]);
-      return of(true);
-    }
-    
-    return of(false);
+  getProjects(): Observable<Project[]> {
+    return this.projects.asObservable();
   }
 
   // Workspace statistics
@@ -320,5 +301,25 @@ export class WorkspaceService {
       totalEnvironments: 0,
       recentActivity: 0
     });
+  }
+
+  getProjectsByWorkspace(workspaceId: string): Observable<Project[]> {
+    const workspace = this.workspaces.value.find(w => w.id === workspaceId);
+    return of(workspace?.projects || []);
+  }
+
+  addProjectToWorkspace(workspaceId: string, project: Project): Observable<boolean> {
+    const currentWorkspaces = this.workspaces.value;
+    const workspaceIndex = currentWorkspaces.findIndex(w => w.id === workspaceId);
+    if (workspaceIndex !== -1) {
+      const workspace = currentWorkspaces[workspaceIndex];
+      if (!workspace.projects) workspace.projects = [];
+      workspace.projects.push(project);
+      workspace.updatedAt = new Date();
+      currentWorkspaces[workspaceIndex] = workspace;
+      this.workspaces.next([...currentWorkspaces]);
+      return of(true);
+    }
+    return of(false);
   }
 } 

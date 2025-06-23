@@ -1,11 +1,16 @@
 <header class="header">
   <div class="header-items-left">
-    <div class="header-brand">
+    <div class="header-content-portion">
       <a routerLink="/">
         <img src="xync.png" width="32" alt="Xync" class="header-logo">
       </a>
     </div>
-    <app-workspace-selector></app-workspace-selector>
+    <div class="header-content-portion">
+      <app-workspace-selector></app-workspace-selector>
+    </div>
+    <div class="header-content-portion">
+      <app-project-selector></app-project-selector>
+    </div>
   </div>
   
   <div class="header-items-right">
