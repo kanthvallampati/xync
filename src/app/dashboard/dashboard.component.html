@@ -76,139 +76,36 @@
   <!-- Main Content -->
   <div class="dashboard-content" *ngIf="!loading">
     <div class="content-grid">
-      <!-- Flags Table -->
-      <mat-card class="flags-card">
-        <mat-card-header>
-          <mat-card-title>Feature Flags</mat-card-title>
-          <mat-card-subtitle>Manage your feature flags across environments</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-          <div class="table-container">
-            <table mat-table [dataSource]="flags" class="flags-table">
-              <!-- Flag Key Column -->
-              <ng-container matColumnDef="key">
-                <th mat-header-cell *matHeaderCellDef>Flag Key</th>
-                <td mat-cell *matCellDef="let flag">
-                  <div class="flag-key">
-                    <strong>{{ flag.key }}</strong>
-                    <div class="flag-name">{{ flag.name }}</div>
-                  </div>
-                </td>
-              </ng-container>
 
-              <!-- Status Column -->
-              <ng-container matColumnDef="status">
-                <th mat-header-cell *matHeaderCellDef>Status</th>
-                <td mat-cell *matCellDef="let flag">
-                  <mat-chip [color]="getFlagStatusColor(flag)" selected>
-                    {{ getFlagStatus(flag) }}
-                  </mat-chip>
-                </td>
-              </ng-container>
-
-              <!-- Type Column -->
-              <ng-container matColumnDef="type">
-                <th mat-header-cell *matHeaderCellDef>Type</th>
-                <td mat-cell *matCellDef="let flag">
-                  <div class="flag-type">
-                    <span class="type-badge">{{ flag.kind }}</span>
-                    <mat-icon *ngIf="flag.temporary" matTooltip="Temporary flag" class="temporary-icon">schedule</mat-icon>
-                  </div>
-                </td>
-              </ng-container>
-
-              <!-- Environments Column -->
-              <ng-container matColumnDef="environments">
-                <th mat-header-cell *matHeaderCellDef>Environments</th>
-                <td mat-cell *matCellDef="let flag">
-                  <div class="environment-indicators">
-                    <div 
-                      *ngFor="let env of environments" 
-                      class="env-indicator"
-                      [style.background-color]="getEnvironmentColor(env.key)"
-                      [matTooltip]="env.name">
-                    </div>
-                  </div>
-                </td>
-              </ng-container>
-
-              <!-- Last Modified Column -->
-              <ng-container matColumnDef="modified">
-                <th mat-header-cell *matHeaderCellDef>Last Modified</th>
-                <td mat-cell *matCellDef="let flag">
-                  {{ flag.updatedAt | date:'short' }}
-                </td>
-              </ng-container>
-
-              <!-- Actions Column -->
-              <ng-container matColumnDef="actions">
-                <th mat-header-cell *matHeaderCellDef>Actions</th>
-                <td mat-cell *matCellDef="let flag">
-                  <div class="action-buttons" (click)="$event.stopPropagation()">
-                    <button mat-icon-button [matMenuTriggerFor]="menu" matTooltip="More actions">
-                      <mat-icon>more_vert</mat-icon>
-                    </button>
-                    <mat-menu #menu="matMenu">
-                      <button mat-menu-item routerLink="/flags/{{ flag.key }}">
-                        <mat-icon>edit</mat-icon>
-                        <span>Edit</span>
-                      </button>
-                      <button mat-menu-item routerLink="/flags/{{ flag.key }}/test">
-                        <mat-icon>science</mat-icon>
-                        <span>Test</span>
-                      </button>
-                      <button mat-menu-item routerLink="/flags/{{ flag.key }}/analytics">
-                        <mat-icon>analytics</mat-icon>
-                        <span>Analytics</span>
-                      </button>
-                      <button mat-menu-item (click)="deleteFlag(flag.key)">
-                        <mat-icon>delete</mat-icon>
-                        <span>Delete</span>
-                      </button>
-                    </mat-menu>
-                  </div>
-                </td>
-              </ng-container>
-
-              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns;" 
-                  [routerLink]="['/flags', row.key]"
-                  class="flag-row"></tr>
-            </table>
-          </div>
-        </mat-card-content>
-      </mat-card>
-
-      <!-- Recent Activity -->
-      <mat-card class="activity-card">
-        <mat-card-header>
-          <mat-card-title>Recent Activity</mat-card-title>
-          <mat-card-subtitle>Latest flag evaluations</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-          <div class="activity-list" *ngIf="recentActivity.length > 0; else noActivity">
-            <div class="activity-item" *ngFor="let activity of recentActivity">
-              <div class="activity-icon">
-                <mat-icon>flag</mat-icon>
+      <div class="flags-showcase-container">
+        @for (flag of flags; track flag.key) {
+          <div class="flag-card" (click)="router.navigate(['/flags', flag.key])">
+            <h6>{{ flag.key }}</h6>
+            <p class="text-sm">{{ flag.description }}</p>
+            
+            <div class="flag-indicators">
+              <!-- Status -->
+              <div class="flag-status">
+                {{ getFlagStatus(flag) }}
               </div>
-              <div class="activity-content">
-                <div class="activity-title">{{ activity.flagKey }}</div>
-                <div class="activity-details">
-                  User: {{ activity.user.key }} • 
-                  Value: {{ activity.value }} • 
-                  {{ activity.reason.kind }}
+              <!-- Enabled Environments -->
+              <div class="flag-environments">
+                @for (env of flag.environments; track env.key) {
+                  <div class="environment-indicator" [style.background-color]="env.color" [matTooltip]="env.name"></div>
+                }
+              </div>
+              <!-- If temporary, show temporary icon -->
+              @if (flag.temporary) {
+                <div class="flag-type">
+                  <mat-icon matTooltip="Temporary flag" class="temporary-icon">schedule</mat-icon>
                 </div>
-              </div>
+              }
             </div>
+            
           </div>
-          <ng-template #noActivity>
-            <div class="no-activity">
-              <mat-icon>info</mat-icon>
-              <p>No recent activity</p>
-            </div>
-          </ng-template>
-        </mat-card-content>
-      </mat-card>
+        }
+      </div>
+
     </div>
   </div>
 

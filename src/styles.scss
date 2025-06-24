@@ -16,44 +16,57 @@ body {
 }
 
 /* Global typography styles */
+
+h1, h2, h3, h4, h5, h6 {
+  display: block;
+}
+
 h1 {
-  font-size: 2.25rem;
+  font-size: 1.75rem;
+  line-height: 2rem;
   font-weight: 500;
   margin: 0 0 1rem 0;
 }
 
 h2 {
-  font-size: 2rem;
+  font-size: 1.5rem;
+  line-height: 1.75rem;
   font-weight: 500;
   margin: 0 0 1rem 0;
 }
 
 h3 {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
+  line-height: 1.5rem;
   font-weight: 500;
   margin: 0 0 1rem 0;
 }
 
 h4 {
-  font-size: 1.25rem;
+  font-size: 1.125rem;
+  line-height: 1.25rem;
   font-weight: 500;
   margin: 0 0 1rem 0;
 }
 
 h5 {
-  font-size: 1.125rem;
+  font-size: 1rem;
+  line-height: 1.25rem;
   font-weight: 400;
   margin: 0 0 1rem 0;
 }
 
 h6 {
-  font-size: 1rem;
-  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1rem;
+  font-weight: 600;
   margin: 0 0 1rem 0;
+  color: #b4b4b4;
 }
 
 p {
   font-size: 0.875rem;
+  line-height: 1rem;
   font-weight: 400;
   margin: 0 0 1rem 0;
 }

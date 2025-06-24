@@ -1,7 +1,7 @@
 // Core Libraries
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 
 // Material UI
 import { MatCardModule } from '@angular/material/card';
@@ -48,15 +48,16 @@ export class DashboardComponent implements OnInit {
   environments: Environment[] = [];
   loading = true;
   selectedEnvironment = 'production';
-  displayedColumns = ['key', 'status', 'type', 'environments', 'modified', 'actions'];
 
   // Analytics data
   totalFlags = 0;
   activeFlags = 0;
   temporaryFlags = 0;
-  recentActivity: any[] = [];
 
-  constructor(private featureFlagService: FeatureFlagService) {}
+  constructor(
+    private featureFlagService: FeatureFlagService, 
+    public router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loadData();
@@ -74,23 +75,10 @@ export class DashboardComponent implements OnInit {
     this.featureFlagService.getEnvironments().subscribe(environments => {
       this.environments = environments;
     });
-
-    this.featureFlagService.getEvaluations().subscribe(evaluations => {
-      this.recentActivity = evaluations.slice(-5).reverse();
-    });
   }
 
   getFlagStatus(flag: FeatureFlag): string {
     return flag.fallthrough.variation !== undefined ? 'active' : 'inactive';
-  }
-
-  getFlagStatusColor(flag: FeatureFlag): string {
-    return this.getFlagStatus(flag) === 'active' ? 'accent' : 'warn';
-  }
-
-  getEnvironmentColor(envKey: string): string {
-    const env = this.environments.find(e => e.key === envKey);
-    return env?.color || '#666';
   }
 
   getVariationDisplay(flag: FeatureFlag, variationIndex: number): string {
