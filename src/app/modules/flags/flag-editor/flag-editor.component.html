@@ -5,7 +5,7 @@
       <div class="header-actions">
         <button mat-button (click)="onCancel()">Cancel</button>
         <button mat-flat-button color="primary" (click)="onSubmit()" [disabled]="!flagForm.valid || loading">
-          <mat-icon *ngIf="loading">hourglass_empty</mat-icon>
+          <lucide-angular *ngIf="loading" [img]="HourglassIcon"></lucide-angular>
           {{ isEditMode ? 'Update' : 'Create' }}
         </button>
       </div>
@@ -71,7 +71,7 @@
                              (removed)="removeTag(tag)">
                   {{ tag }}
                   <button matChipRemove>
-                    <mat-icon>cancel</mat-icon>
+                    <lucide-angular [img]="XIcon"></lucide-angular>
                   </button>
                 </mat-chip-row>
               </mat-chip-grid>
@@ -100,7 +100,7 @@
                         (click)="removeVariation(i)"
                         [disabled]="variations.length <= 1"
                         matTooltip="Remove variation">
-                  <mat-icon>delete</mat-icon>
+                  <lucide-angular [img]="Trash2Icon"></lucide-angular>
                 </button>
               </div>
               
@@ -121,7 +121,7 @@
           
           <div class="variation-actions">
             <button mat-button type="button" (click)="addVariation()">
-              <mat-icon>add</mat-icon>
+              <lucide-angular [img]="PlusIcon"></lucide-angular>
               Add Variation
             </button>
           </div>

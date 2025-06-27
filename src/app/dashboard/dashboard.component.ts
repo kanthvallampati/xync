@@ -6,16 +6,12 @@ import { RouterModule, Router } from '@angular/router';
 // Material UI
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatBadgeModule } from '@angular/material/badge';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatMenuModule } from '@angular/material/menu';
+
+// Lucide Icons
+import { LucideAngularModule, Plus, Flag, CheckCircle, Clock, Layers } from 'lucide-angular';
 
 // Services
 import { FeatureFlagService } from '../modules/flags/services/feature-flag.service';
@@ -29,16 +25,10 @@ import { FeatureFlag, Environment } from '../modules/flags/models/feature-flag.m
     RouterModule,
     MatCardModule,
     MatButtonModule,
-    MatIconModule,
+    LucideAngularModule,
     MatChipsModule,
     MatProgressBarModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatTabsModule,
-    MatBadgeModule,
-    MatTooltipModule,
-    MatMenuModule
+    MatTooltipModule
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
@@ -53,6 +43,13 @@ export class DashboardComponent implements OnInit {
   totalFlags = 0;
   activeFlags = 0;
   temporaryFlags = 0;
+
+  // Lucide icons
+  readonly PlusIcon = Plus;
+  readonly FlagIcon = Flag;
+  readonly CheckCircleIcon = CheckCircle;
+  readonly ClockIcon = Clock;
+  readonly LayersIcon = Layers;
 
   constructor(
     private featureFlagService: FeatureFlagService, 

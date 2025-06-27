@@ -7,13 +7,15 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 // Material UI
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+
+// Lucide Icons
+import { LucideAngularModule, ArrowLeft, Hourglass, Clock, Flag } from 'lucide-angular';
 
 // Services
 import { FeatureFlagService } from '../services/feature-flag.service';
@@ -28,7 +30,7 @@ import { FeatureFlag, User, FlagEvaluation } from '../models/feature-flag.model'
     RouterModule,
     MatCardModule,
     MatButtonModule,
-    MatIconModule,
+    LucideAngularModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
@@ -45,6 +47,12 @@ export class FlagTesterComponent implements OnInit {
   evaluation: FlagEvaluation | undefined;
   loading = false;
   flagKey: string = '';
+
+  // Lucide icons
+  readonly ArrowLeftIcon = ArrowLeft;
+  readonly HourglassIcon = Hourglass;
+  readonly ClockIcon = Clock;
+  readonly FlagIcon = Flag;
 
   constructor(
     private fb: FormBuilder,

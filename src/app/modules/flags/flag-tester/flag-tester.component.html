@@ -1,188 +1,148 @@
 <div class="flag-tester-container">
+  <!-- Header -->
   <div class="tester-header">
+    <button mat-button routerLink="/flags" class="back-button">
+      <lucide-angular [img]="ArrowLeftIcon"></lucide-angular>
+      Back to Flags
+    </button>
     <div class="header-content">
-      <h1>Test Flag: {{ flag?.name || flagKey }}</h1>
-      <div class="header-actions">
-        <button mat-button routerLink="/flags/{{ flagKey }}">
-          <mat-icon>arrow_back</mat-icon>
-          Back to Flag
-        </button>
-      </div>
+      <h1>Flag Tester</h1>
+      <p>Test how your feature flag evaluates for different users</p>
     </div>
   </div>
 
-  <div class="tester-content" *ngIf="flag">
-    <div class="content-grid">
-      <!-- User Input Form -->
-      <mat-card class="tester-card">
-        <mat-card-header>
-          <mat-card-title>Test User</mat-card-title>
-          <mat-card-subtitle>Configure user attributes to test the flag</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-          <form [formGroup]="userForm" class="user-form">
-            <div class="form-row">
-              <mat-form-field appearance="outline" class="form-field">
-                <mat-label>User Key</mat-label>
-                <input matInput formControlName="key" placeholder="user-123">
-                <mat-error *ngIf="userForm.get('key')?.hasError('required')">User key is required</mat-error>
-              </mat-form-field>
-            </div>
-
-            <div class="form-row">
-              <mat-form-field appearance="outline" class="form-field">
-                <mat-label>Name</mat-label>
-                <input matInput formControlName="name" placeholder="John Doe">
-              </mat-form-field>
-            </div>
-
-            <div class="form-row">
-              <mat-form-field appearance="outline" class="form-field">
-                <mat-label>Email</mat-label>
-                <input matInput formControlName="email" placeholder="john@example.com">
-              </mat-form-field>
-            </div>
-
-            <div class="form-row">
-              <mat-form-field appearance="outline" class="form-field">
-                <mat-label>Country</mat-label>
-                <mat-select formControlName="country">
-                  <mat-option value="US">United States</mat-option>
-                  <mat-option value="CA">Canada</mat-option>
-                  <mat-option value="UK">United Kingdom</mat-option>
-                  <mat-option value="DE">Germany</mat-option>
-                  <mat-option value="FR">France</mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-
-            <div class="form-row">
-              <mat-form-field appearance="outline" class="form-field">
-                <mat-label>Subscription</mat-label>
-                <mat-select formControlName="subscription">
-                  <mat-option value="basic">Basic</mat-option>
-                  <mat-option value="premium">Premium</mat-option>
-                  <mat-option value="enterprise">Enterprise</mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-
-            <div class="form-actions">
-              <button mat-raised-button color="primary" (click)="testFlag()" [disabled]="!userForm.valid || loading">
-                <mat-icon *ngIf="loading">hourglass_empty</mat-icon>
-                Test Flag
-              </button>
-            </div>
-          </form>
-        </mat-card-content>
-      </mat-card>
-
-      <!-- Evaluation Results -->
-      <mat-card class="tester-card" *ngIf="evaluation">
-        <mat-card-header>
-          <mat-card-title>Evaluation Result</mat-card-title>
-          <mat-card-subtitle>Flag evaluation for the test user</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-          <div class="evaluation-result">
-            <div class="result-item">
-              <div class="result-label">Flag Value:</div>
-              <div class="result-value">
-                <span class="value-display">{{ evaluation.value }}</span>
-                <span class="variation-name">({{ getVariationName(evaluation.variationIndex) }})</span>
-              </div>
-            </div>
-
-            <div class="result-item">
-              <div class="result-label">Variation Index:</div>
-              <div class="result-value">{{ evaluation.variationIndex }}</div>
-            </div>
-
-            <div class="result-item">
-              <div class="result-label">Evaluation Reason:</div>
-              <div class="result-value">
-                <mat-chip [color]="getReasonColor(evaluation.reason)" selected>
-                  {{ getReasonDisplay(evaluation.reason) }}
-                </mat-chip>
-              </div>
-            </div>
-
-            <div class="result-item">
-              <div class="result-label">Version:</div>
-              <div class="result-value">{{ evaluation.version }}</div>
-            </div>
-
-            <div class="result-item">
-              <div class="result-label">Track Events:</div>
-              <div class="result-value">
-                <mat-chip [color]="evaluation.trackEvents ? 'accent' : 'warn'" selected>
-                  {{ evaluation.trackEvents ? 'Yes' : 'No' }}
-                </mat-chip>
-              </div>
-            </div>
+  <!-- Flag Information -->
+  <div class="flag-info" *ngIf="flag">
+    <mat-card class="info-card">
+      <mat-card-content>
+        <div class="flag-header">
+          <h2>{{ flag.name }}</h2>
+          <div class="flag-meta">
+            <span class="flag-key">{{ flag.key }}</span>
+            <span class="flag-type">{{ flag.kind }}</span>
+            <lucide-angular *ngIf="flag.temporary" [img]="ClockIcon" matTooltip="Temporary flag" class="temporary-icon"></lucide-angular>
           </div>
-        </mat-card-content>
-      </mat-card>
-
-      <!-- Flag Information -->
-      <mat-card class="tester-card">
-        <mat-card-header>
-          <mat-card-title>Flag Information</mat-card-title>
-          <mat-card-subtitle>Current flag configuration</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-          <div class="flag-info">
-            <div class="info-item">
-              <div class="info-label">Flag Key:</div>
-              <div class="info-value">{{ flag.key }}</div>
-            </div>
-
-            <div class="info-item">
-              <div class="info-label">Name:</div>
-              <div class="info-value">{{ flag.name }}</div>
-            </div>
-
-            <div class="info-item">
-              <div class="info-label">Type:</div>
-              <div class="info-value">
-                <span class="type-badge">{{ flag.kind }}</span>
-                <mat-icon *ngIf="flag.temporary" matTooltip="Temporary flag" class="temporary-icon">schedule</mat-icon>
-              </div>
-            </div>
-
-            <div class="info-item">
-              <div class="info-label">Status:</div>
-              <div class="info-value">
-                <mat-chip [color]="flag.fallthrough.variation !== undefined ? 'accent' : 'warn'" selected>
-                  {{ flag.fallthrough.variation !== undefined ? 'Active' : 'Inactive' }}
-                </mat-chip>
-              </div>
-            </div>
-
-            <div class="info-item">
-              <div class="info-label">Variations:</div>
-              <div class="info-value">
-                <div class="variations-list">
-                  <div *ngFor="let variation of flag.variations; let i = index" class="variation-item">
-                    <span class="variation-index">{{ i }}:</span>
-                    <span class="variation-value">{{ variation.name || variation.value }}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="info-item" *ngIf="flag.tags.length > 0">
-              <div class="info-label">Tags:</div>
-              <div class="info-value">
-                <mat-chip *ngFor="let tag of flag.tags" class="tag-chip">
-                  {{ tag }}
-                </mat-chip>
-              </div>
-            </div>
+        </div>
+        <p class="flag-description">{{ flag.description }}</p>
+        
+        <div class="flag-variations">
+          <h3>Variations:</h3>
+          <div class="variations-list">
+            @for (variation of flag.variations; track $index) {
+              <mat-chip [color]="variation.value ? 'primary' : 'warn'" selected>
+                {{ getVariationName($index) }}
+              </mat-chip>
+            }
           </div>
-        </mat-card-content>
-      </mat-card>
-    </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Test Form -->
+  <div class="test-section">
+    <mat-card class="test-card">
+      <mat-card-header>
+        <mat-card-title>Test User</mat-card-title>
+        <mat-card-subtitle>Configure user attributes to test the flag</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <form [formGroup]="userForm" class="user-form">
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>User Key</mat-label>
+              <input matInput formControlName="key" placeholder="user-123">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Name</mat-label>
+              <input matInput formControlName="name" placeholder="John Doe">
+            </mat-form-field>
+          </div>
+          
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Email</mat-label>
+              <input matInput formControlName="email" placeholder="john@example.com">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Country</mat-label>
+              <mat-select formControlName="country">
+                <mat-option value="US">United States</mat-option>
+                <mat-option value="CA">Canada</mat-option>
+                <mat-option value="UK">United Kingdom</mat-option>
+                <mat-option value="AU">Australia</mat-option>
+                <mat-option value="DE">Germany</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Subscription</mat-label>
+              <mat-select formControlName="subscription">
+                <mat-option value="basic">Basic</mat-option>
+                <mat-option value="premium">Premium</mat-option>
+                <mat-option value="enterprise">Enterprise</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          
+          <div class="form-actions">
+            <button type="button" mat-raised-button color="primary" (click)="testFlag()" [disabled]="!userForm.valid || loading">
+              <lucide-angular *ngIf="loading" [img]="HourglassIcon"></lucide-angular>
+              Test Flag
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Results -->
+  <div class="results-section" *ngIf="evaluation">
+    <mat-card class="results-card">
+      <mat-card-header>
+        <mat-card-title>Evaluation Results</mat-card-title>
+        <mat-card-subtitle>How the flag evaluated for the test user</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="evaluation-results">
+          <div class="result-item">
+            <span class="label">Value:</span>
+            <mat-chip [color]="evaluation.value ? 'primary' : 'warn'" selected>
+              {{ evaluation.value }}
+            </mat-chip>
+          </div>
+          
+          <div class="result-item">
+            <span class="label">Reason:</span>
+            <mat-chip [color]="getReasonColor(evaluation.reason)" selected>
+              {{ getReasonDisplay(evaluation.reason) }}
+            </mat-chip>
+          </div>
+          
+          <div class="result-item">
+            <span class="label">Variation Index:</span>
+            <span class="value">{{ evaluation.variationIndex }}</span>
+          </div>
+          
+          <div class="result-item">
+            <span class="label">Variation Name:</span>
+            <span class="value">{{ getVariationName(evaluation.variationIndex) }}</span>
+          </div>
+          
+          <div class="result-item" *ngIf="evaluation.reason.kind === 'RULE_MATCH'">
+            <span class="label">Matched Rule:</span>
+            <span class="value">{{ evaluation.reason.ruleId }}</span>
+          </div>
+          
+          <div class="result-item" *ngIf="evaluation.reason.kind === 'TARGET_MATCH'">
+            <span class="label">Target Match:</span>
+            <span class="value">Target matched</span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
   </div>
 
   <!-- Loading State -->
@@ -194,7 +154,7 @@
   <!-- Not Found State -->
   <div class="not-found-container" *ngIf="!flag && !loading">
     <div class="empty-state">
-      <mat-icon>flag</mat-icon>
+      <lucide-angular [img]="FlagIcon"></lucide-angular>
       <h3>Flag Not Found</h3>
       <p>The flag "{{ flagKey }}" could not be found.</p>
       <button mat-raised-button color="primary" routerLink="/">

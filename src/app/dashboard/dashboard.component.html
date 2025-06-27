@@ -7,7 +7,7 @@
       </div>
       <div class="header-actions">
         <button mat-raised-button color="primary" routerLink="/flags/new">
-          <mat-icon>add</mat-icon>
+          <lucide-angular [img]="PlusIcon"></lucide-angular>
           Create Flag
         </button>
       </div>
@@ -20,7 +20,7 @@
       <mat-card-content>
         <div class="stat-content">
           <div class="stat-icon">
-            <mat-icon>flag</mat-icon>
+            <lucide-angular [img]="FlagIcon"></lucide-angular>
           </div>
           <div class="stat-info">
             <div class="stat-number">{{ totalFlags }}</div>
@@ -34,7 +34,7 @@
       <mat-card-content>
         <div class="stat-content">
           <div class="stat-icon active">
-            <mat-icon>check_circle</mat-icon>
+            <lucide-angular [img]="CheckCircleIcon"></lucide-angular>
           </div>
           <div class="stat-info">
             <div class="stat-number">{{ activeFlags }}</div>
@@ -48,7 +48,7 @@
       <mat-card-content>
         <div class="stat-content">
           <div class="stat-icon temporary">
-            <mat-icon>schedule</mat-icon>
+            <lucide-angular [img]="ClockIcon"></lucide-angular>
           </div>
           <div class="stat-info">
             <div class="stat-number">{{ temporaryFlags }}</div>
@@ -62,7 +62,7 @@
       <mat-card-content>
         <div class="stat-content">
           <div class="stat-icon environments">
-            <mat-icon>layers</mat-icon>
+            <lucide-angular [img]="LayersIcon"></lucide-angular>
           </div>
           <div class="stat-info">
             <div class="stat-number">{{ environments.length }}</div>
@@ -97,7 +97,7 @@
               <!-- If temporary, show temporary icon -->
               @if (flag.temporary) {
                 <div class="flag-type">
-                  <mat-icon matTooltip="Temporary flag" class="temporary-icon">schedule</mat-icon>
+                  <lucide-angular [img]="ClockIcon" matTooltip="Temporary flag" class="temporary-icon"></lucide-angular>
                 </div>
               }
             </div>

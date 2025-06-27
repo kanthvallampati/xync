@@ -18,6 +18,18 @@
     border-color: rgba(255, 255, 255, 0.3);
   }
 
+  .workspace-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+
+  .dropdown-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
   .workspace-name {
     max-width: 150px;
     overflow: hidden;
@@ -82,6 +94,12 @@
   font-size: 18px;
   width: 18px;
   height: 18px;
+}
+
+.action-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
 }
 
 .menu-actions {

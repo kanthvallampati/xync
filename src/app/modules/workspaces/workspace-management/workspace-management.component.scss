@@ -53,6 +53,12 @@
       width: 24px;
       height: 24px;
     }
+
+    lucide-angular {
+      width: 24px;
+      height: 24px;
+      color: inherit;
+    }
   }
 
   .stat-info {
@@ -226,6 +232,14 @@
 
   mat-icon {
     font-size: 64px;
+    width: 64px;
+    height: 64px;
+    color: #b0b0b0;
+    margin-bottom: 16px;
+    opacity: 0.5;
+  }
+
+  lucide-angular {
     width: 64px;
     height: 64px;
     color: #b0b0b0;

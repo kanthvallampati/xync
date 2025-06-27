@@ -4,9 +4,9 @@
     [matMenuTriggerFor]="projectMenu" 
     class="workspace-button"
     matTooltip="Switch project">
-    <mat-icon>folder</mat-icon>
+    <lucide-angular [img]="BoxesIcon"></lucide-angular>
     <span class="workspace-name">{{ currentProject?.name || 'Select Project' }}</span>
-    <mat-icon>arrow_drop_down</mat-icon>
+    <lucide-angular [img]="ChevronDownIcon"></lucide-angular>
   </button>
 
   <mat-menu #projectMenu="matMenu" class="workspace-menu">
@@ -25,7 +25,7 @@
             <div class="workspace-name">{{ getProjectDisplayName(project) }}</div>
             <div class="workspace-description">{{ getProjectDescription(project) }}</div>
           </div>
-          <mat-icon *ngIf="project.id === currentProject?.id" class="check-icon">check</mat-icon>
+          <lucide-angular *ngIf="project.id === currentProject?.id" [img]="CheckIcon" class="check-icon"></lucide-angular>
         </div>
       </button>
     </div>
@@ -34,11 +34,11 @@
     
     <div class="menu-actions">
       <button mat-menu-item (click)="createNewProject()">
-        <mat-icon>add</mat-icon>
+        <lucide-angular [img]="PlusIcon"></lucide-angular>
         <span>Create Project</span>
       </button>
       <button mat-menu-item (click)="manageProjects()">
-        <mat-icon>settings</mat-icon>
+        <lucide-angular [img]="SettingsIcon"></lucide-angular>
         <span>Manage Projects</span>
       </button>
     </div>

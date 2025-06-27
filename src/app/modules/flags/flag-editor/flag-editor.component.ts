@@ -7,16 +7,16 @@ import { Router, ActivatedRoute } from '@angular/router';
 // Material UI
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+
+// Lucide Icons
+import { LucideAngularModule, Hourglass, X, Trash2, Plus } from 'lucide-angular';
 
 // Services
 import { FeatureFlagService } from '../services/feature-flag.service';
@@ -31,15 +31,13 @@ import { FLAG_TYPES } from '../../../constants/app.constants';
     ReactiveFormsModule,
     MatCardModule,
     MatButtonModule,
-    MatIconModule,
+    LucideAngularModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
     MatCheckboxModule,
     MatChipsModule,
     MatDividerModule,
-    MatTabsModule,
-    MatExpansionModule,
     MatSnackBarModule
   ],
   templateUrl: './flag-editor.component.html',
@@ -53,6 +51,12 @@ export class FlagEditorComponent implements OnInit {
   flagKey: string | null = null;
 
   flagTypes: any[] = [];
+
+  // Lucide icons
+  readonly HourglassIcon = Hourglass;
+  readonly XIcon = X;
+  readonly Trash2Icon = Trash2;
+  readonly PlusIcon = Plus;
 
   constructor(
     private fb: FormBuilder,
@@ -201,7 +205,7 @@ export class FlagEditorComponent implements OnInit {
         ];
         break;
     }
-
+    
     this.setVariations(variations);
   }
 
@@ -228,40 +232,43 @@ export class FlagEditorComponent implements OnInit {
 
   onSubmit(): void {
     if (this.flagForm.valid) {
-      this.loading = true;
-      const formValue = this.flagForm.value;
+      const flagData = this.flagForm.value;
       
-      const flagData = {
-        ...formValue,
-        environments: this.environments,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        createdBy: 'current-user@company.com',
-        rules: [],
-        prerequisites: [],
-        targets: [],
-        contextTargets: []
-      };
-
       if (this.isEditMode && this.flagKey) {
-        this.featureFlagService.updateFlag(this.flagKey, flagData).subscribe(flag => {
-          this.loading = false;
-          if (flag) {
+        this.featureFlagService.updateFlag(this.flagKey, flagData).subscribe(success => {
+          if (success) {
             this.snackBar.open('Flag updated successfully', 'Close', { duration: 3000 });
-            this.router.navigate(['/flags', flag.key]);
+            this.router.navigate(['/flags', this.flagKey]);
           }
         });
       } else {
-        this.featureFlagService.createFlag(flagData).subscribe(flag => {
-          this.loading = false;
-          this.snackBar.open('Flag created successfully', 'Close', { duration: 3000 });
-          this.router.navigate(['/flags', flag.key]);
+        this.featureFlagService.createFlag(flagData).subscribe(success => {
+          if (success) {
+            this.snackBar.open('Flag created successfully', 'Close', { duration: 3000 });
+            this.router.navigate(['/flags']);
+          }
         });
       }
     }
   }
 
   onCancel(): void {
-    this.router.navigate(['/']);
+    this.router.navigate(['/flags']);
+  }
+
+  getVariationPlaceholder(): string {
+    const kind = this.flagForm.get('kind')?.value;
+    switch (kind) {
+      case FlagType.BOOLEAN:
+        return 'true or false';
+      case FlagType.STRING:
+        return 'Enter string value';
+      case FlagType.NUMBER:
+        return 'Enter number';
+      case FlagType.JSON:
+        return '{"key": "value"}';
+      default:
+        return 'Enter value';
+    }
   }
 } 

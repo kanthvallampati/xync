@@ -157,6 +157,73 @@ p {
   padding: 0;
 }
 
+/* Lucide Icons - Global styling for proper alignment */
+lucide-angular {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  
+  /* Default size to match Material icons */
+  width: 24px;
+  height: 24px;
+  
+  /* Ensure proper alignment in buttons */
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/* Button icon alignment fixes */
+.mat-mdc-raised-button,
+.mat-mdc-button,
+.mat-mdc-outlined-button,
+.mat-mdc-icon-button {
+  lucide-angular {
+    /* Ensure icons are properly centered in buttons */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    
+    /* Match Material icon sizing in buttons */
+    width: 18px;
+    height: 18px;
+    
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+/* Menu item icon alignment */
+.mat-mdc-menu-item {
+  lucide-angular {
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
+  }
+}
+
+/* Chip icon alignment */
+.mat-mdc-chip {
+  lucide-angular {
+    width: 16px;
+    height: 16px;
+    margin-left: 4px;
+  }
+}
+
+/* Form field icon alignment */
+.mat-mdc-form-field {
+  lucide-angular {
+    width: 20px;
+    height: 20px;
+  }
+}
+
 /* Dark theme loading spinner */
 .loading-spinner {
   display: flex;
@@ -173,6 +240,13 @@ p {
   
   mat-icon {
     font-size: 64px;
+    width: 64px;
+    height: 64px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+  }
+  
+  lucide-angular {
     width: 64px;
     height: 64px;
     margin-bottom: 16px;
@@ -272,4 +346,10 @@ p {
 }
 .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
   color: #ffffff !important;
+}
+
+
+.mdc-button .mdc-button__label {
+  display: flex;
+  gap: 0.5rem;
 }

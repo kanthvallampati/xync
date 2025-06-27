@@ -7,11 +7,11 @@ import { Router } from '@angular/router';
 // Angular Material
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
+
+// Lucide Icons
+import { LucideAngularModule, Building2, ChevronDown, Check, Plus, Settings } from 'lucide-angular';
 
 // Third Party Libraries
 import { Subject, takeUntil } from 'rxjs';
@@ -28,10 +28,8 @@ import { WorkspaceService } from '../services/workspace.service';
     FormsModule,
     MatSelectModule,
     MatButtonModule,
-    MatIconModule,
+    LucideAngularModule,
     MatMenuModule,
-    MatDialogModule,
-    MatTooltipModule,
     MatDividerModule
   ],
   templateUrl: './workspace-selector.component.html',
@@ -41,6 +39,13 @@ export class WorkspaceSelectorComponent implements OnInit, OnDestroy {
   workspaces: Workspace[] = [];
   currentWorkspace: Workspace | null = null;
   private destroy$ = new Subject<void>();
+
+  // Lucide icons
+  readonly Building2Icon = Building2;
+  readonly ChevronDownIcon = ChevronDown;
+  readonly CheckIcon = Check;
+  readonly PlusIcon = Plus;
+  readonly SettingsIcon = Settings;
 
   constructor(
     private workspaceService: WorkspaceService,

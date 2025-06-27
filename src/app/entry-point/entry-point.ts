@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { WorkspaceService } from '../modules/workspaces/services/workspace.service';
 import { Workspace } from '../modules/workspaces/models/workspace.model';
 import { Observable } from 'rxjs';
-import { MatCardModule } from '@angular/material/card';
 import { AsyncPipe } from '@angular/common';
 import { ProjectService } from '../modules/workspaces/services/project.service';
 import { Project } from '../modules/workspaces/models/project.model';
@@ -11,7 +10,7 @@ import { Project } from '../modules/workspaces/models/project.model';
 @Component({
   selector: 'app-entry-point',
   standalone: true,
-  imports: [MatCardModule, AsyncPipe],
+  imports: [AsyncPipe],
   templateUrl: './entry-point.html',
   styleUrl: './entry-point.scss'
 })

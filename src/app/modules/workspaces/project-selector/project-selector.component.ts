@@ -7,11 +7,11 @@ import { Router } from '@angular/router';
 // Angular Material
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
+
+// Lucide Icons
+import { LucideAngularModule, ChevronDown, Check, Plus, Settings, Boxes } from 'lucide-angular';
 
 // Third Party Libraries
 import { Subject, takeUntil } from 'rxjs';
@@ -30,10 +30,8 @@ import { WorkspaceService } from '../services/workspace.service';
     FormsModule,
     MatSelectModule,
     MatButtonModule,
-    MatIconModule,
+    LucideAngularModule,
     MatMenuModule,
-    MatDialogModule,
-    MatTooltipModule,
     MatDividerModule
   ],
   templateUrl: './project-selector.component.html',
@@ -44,6 +42,13 @@ export class ProjectSelectorComponent implements OnInit, OnDestroy {
   currentProject: Project | null = null;
   currentWorkspace: Workspace | null = null;
   private destroy$ = new Subject<void>();
+
+  // Lucide icons
+  readonly BoxesIcon = Boxes;
+  readonly ChevronDownIcon = ChevronDown;
+  readonly CheckIcon = Check;
+  readonly PlusIcon = Plus;
+  readonly SettingsIcon = Settings;
 
   constructor(
     private projectService: ProjectService,

@@ -7,12 +7,13 @@ import { ActivatedRoute } from '@angular/router';
 // Material UI
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDividerModule } from '@angular/material/divider';
+
+// Lucide Icons
+import { LucideAngularModule, ArrowLeft, BarChart3, TrendingUp, Layers, Info, Flag } from 'lucide-angular';
 
 // Services
 import { FeatureFlagService } from '../services/feature-flag.service';
@@ -26,8 +27,7 @@ import { FeatureFlag, FlagEvaluation } from '../models/feature-flag.model';
     RouterModule,
     MatCardModule,
     MatButtonModule,
-    MatIconModule,
-    MatTabsModule,
+    LucideAngularModule,
     MatTableModule,
     MatProgressBarModule,
     MatChipsModule,
@@ -45,6 +45,14 @@ export class AnalyticsComponent implements OnInit {
   Object = Object; // Make Object available in template
 
   displayedColumns = ['user', 'value', 'reason', 'timestamp'];
+
+  // Lucide icons
+  readonly ArrowLeftIcon = ArrowLeft;
+  readonly BarChart3Icon = BarChart3;
+  readonly TrendingUpIcon = TrendingUp;
+  readonly LayersIcon = Layers;
+  readonly InfoIcon = Info;
+  readonly FlagIcon = Flag;
 
   constructor(
     private featureFlagService: FeatureFlagService,

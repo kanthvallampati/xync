@@ -7,12 +7,14 @@ import { Router } from '@angular/router';
 // Angular Material
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSnackBar } from '@angular/material/snack-bar';
+
+// Lucide Icons
+import { LucideAngularModule, Plus } from 'lucide-angular';
 
 // Services
 import { WorkspaceService } from '../services/workspace.service';
@@ -26,7 +28,7 @@ import { WorkspaceService } from '../services/workspace.service';
     ReactiveFormsModule,
     MatCardModule,
     MatButtonModule,
-    MatIconModule,
+    LucideAngularModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
@@ -37,6 +39,9 @@ import { WorkspaceService } from '../services/workspace.service';
 })
 export class WorkspaceCreationComponent {
   workspaceForm: FormGroup;
+
+  // Lucide icons
+  readonly PlusIcon = Plus;
 
   constructor(
     private fb: FormBuilder,

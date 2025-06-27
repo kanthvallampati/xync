@@ -7,9 +7,8 @@ import { Router } from '@angular/router';
 // Angular Material
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
-import { MatDialogModule, MatDialog } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -18,8 +17,9 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatListModule } from '@angular/material/list';
-import { MatBadgeModule } from '@angular/material/badge';
+
+// Lucide Icons
+import { LucideAngularModule, Building2, Users, Folder, Plus, MoreVertical, ArrowLeftRight, Trash2, UserPlus, Shield, Edit, UserMinus } from 'lucide-angular';
 
 // Third Party Libraries
 import { Subject, takeUntil } from 'rxjs';
@@ -40,18 +40,15 @@ import { ProjectService } from '../services/project.service';
     ReactiveFormsModule,
     MatCardModule,
     MatButtonModule,
-    MatIconModule,
+    LucideAngularModule,
     MatTableModule,
-    MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
     MatChipsModule,
     MatMenuModule,
     MatTabsModule,
-    MatDividerModule,
-    MatListModule,
-    MatBadgeModule
+    MatDividerModule
   ],
   templateUrl: './workspace-management.component.html',
   styleUrls: ['./workspace-management.component.scss']
@@ -69,6 +66,19 @@ export class WorkspaceManagementComponent implements OnInit, OnDestroy {
   WorkspaceRole = WorkspaceRole; // Make enum available in template
   projects: Project[] = [];
   private destroy$ = new Subject<void>();
+
+  // Lucide icons
+  readonly Building2Icon = Building2;
+  readonly UsersIcon = Users;
+  readonly FolderIcon = Folder;
+  readonly PlusIcon = Plus;
+  readonly MoreVerticalIcon = MoreVertical;
+  readonly ArrowLeftRightIcon = ArrowLeftRight;
+  readonly Trash2Icon = Trash2;
+  readonly UserPlusIcon = UserPlus;
+  readonly ShieldIcon = Shield;
+  readonly EditIcon = Edit;
+  readonly UserMinusIcon = UserMinus;
 
   constructor(
     private workspaceService: WorkspaceService,
